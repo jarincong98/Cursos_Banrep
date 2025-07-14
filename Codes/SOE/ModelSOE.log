@@ -1,0 +1,170 @@
+Starting Dynare (version 6.1).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 10 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+4 block(s) found: 
+  3 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 7 equation(s) 
+                                 and 7 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 7 equation(s) 
+                                 and 7 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+DYNARE_SOLVE (solve_algo=2|4): number of blocks = 6
+MODEL_DIAGNOSTICS:  No obvious problems with this mod-file were detected.
+
+
+Residuals of the static equations:
+Equation number  1: R_star :       0.000000
+Equation number  2: 2      :       0.000000
+Equation number  3: I      :       0.000000
+Equation number  4: Y      :       0.000000
+Equation number  5: 5      :       0.000000
+Equation number  6: 6      :       0.000000
+Equation number  7: 7      :       0.000000
+Equation number  8: A      :       0.000000
+Equation number  9: T      :       0.000000
+Equation number 10: NX     :       0.000000
+
+
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+          0.3393           0.3393                0
+            0.75             0.75                0
+            0.75             0.75                0
+          0.9776           0.9776                0
+           1.068            1.068                0
+           2.533           -2.533                0
+       1.484e+16        1.484e+16                0
+       5.127e+21       -5.127e+21                0
+
+There are 4 eigenvalue(s) larger than 1 in modulus for 4 forward-looking variable(s)
+The rank condition is verified.
+
+
+STEADY-STATE RESULTS:
+
+K      		 3.38286
+L      		 0.937277
+B_star 		 -0.25
+R_star 		 0.0416667
+I      		 0.338286
+Y      		 1.43772
+C      		 1.18901
+A      		 1
+T      		 0.1
+NX     		 -0.0895833
+
+MODEL SUMMARY
+
+  Number of variables:         10
+  Number of stochastic shocks: 2
+  Number of state variables:   4
+  Number of jumpers:           4
+  Number of static variables:  3
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables       eps_A     eps_T
+eps_A        0.010000  0.000000
+eps_T        0.000000  0.000000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   K               L          B_star          R_star               I               Y               C               A               T              NX
+Constant                    3.380415        0.940496       -0.233360        0.041632        0.335837        1.441009        1.178124        1.000000        0.100000       -0.072952
+(correction)               -0.002450        0.003219        0.016640       -0.000035       -0.002450        0.003292       -0.010890               0               0        0.016632
+B_star(-1)                  0.012712       -0.014720        0.964608       -0.002010        0.012712       -0.015053        0.049796               0               0       -0.077562
+A(-1)                       2.191939        0.073755       -1.235245        0.002573        2.191939        1.153712        0.196374        0.750000               0       -1.234601
+T(-1)                      -0.039701       -0.036219        0.630467       -0.001313       -0.039701       -0.037038        0.122525               0        0.750000       -0.119862
+K(-1)                       0.352323        0.002286        0.641170       -0.001336       -0.547677        0.144005        0.050846               0               0        0.640836
+eps_A                       2.922585        0.098340       -1.646993        0.003431        2.922585        1.538282        0.261832        1.000000               0       -1.646135
+eps_T                      -0.052935       -0.048292        0.840622       -0.001751       -0.052935       -0.049384        0.163366               0        1.000000       -0.159816
+B_star(-1),B_star(-1)        0.000216        0.000590       -0.001111        0.000051        0.000217        0.000564       -0.000564               0               0        0.000911
+A(-1),B_star(-1)            0.004956        0.002283       -0.007777       -0.000108        0.005234       -0.008560       -0.003417               0               0       -0.010378
+A(-1),A(-1)                -0.196526       -0.043597        0.177259       -0.000290       -0.172503        0.010995        0.006313               0               0        0.177186
+T(-1),B_star(-1)            0.003212        0.002539       -0.000599        0.000065        0.003207        0.002403       -0.001535               0               0        0.000731
+T(-1),A(-1)                -0.006944        0.005808       -0.003982       -0.000073       -0.007814       -0.020868       -0.009054               0               0       -0.004000
+T(-1),T(-1)                 0.005174        0.002950       -0.001111        0.000023        0.005182        0.002778       -0.001298               0               0       -0.001106
+K(-1),B_star(-1)            0.004527        0.000913       -0.005255        0.000075        0.004444       -0.000537       -0.001081               0               0       -0.003900
+K(-1),A(-1)                 0.115676        0.001610        0.012007       -0.000108        0.101480        0.117020        0.003561               0               0        0.011980
+K(-1),T(-1)                 0.004818        0.001970       -0.004970        0.000052        0.005075       -0.001605       -0.001723               0               0       -0.004956
+K(-1),K(-1)                 0.026767       -0.001806       -0.043016        0.000111        0.028864       -0.015577       -0.001452               0               0       -0.042989
+eps_A,eps_A                -0.349380       -0.077506        0.315126       -0.000515       -0.306673        0.019547        0.011222               0               0        0.314998
+eps_T,eps_A                -0.012344        0.010325       -0.007079       -0.000129       -0.013891       -0.037098       -0.016096               0               0       -0.007111
+eps_T,eps_T                 0.009198        0.005244       -0.001976        0.000041        0.009212        0.004938       -0.002308               0               0       -0.001966
+B_star(-1),eps_A            0.006608        0.003044       -0.010370       -0.000144        0.006979       -0.011414       -0.004556               0               0       -0.013837
+B_star(-1),eps_T            0.004283        0.003386       -0.000798        0.000086        0.004276        0.003204       -0.002047               0               0        0.000974
+A(-1),eps_A                -0.524071       -0.116259        0.472690       -0.000773       -0.460009        0.029321        0.016833               0               0        0.472496
+A(-1),eps_T                -0.009258        0.007744       -0.005309       -0.000097       -0.010418       -0.027824       -0.012072               0               0       -0.005334
+T(-1),eps_A                -0.009258        0.007744       -0.005309       -0.000097       -0.010418       -0.027824       -0.012072               0               0       -0.005334
+T(-1),eps_T                 0.013797        0.007866       -0.002964        0.000061        0.013818        0.007408       -0.003462               0               0       -0.002949
+K(-1),eps_A                 0.154235        0.002146        0.016009       -0.000143        0.135306        0.156027        0.004748               0               0        0.015973
+K(-1),eps_T                 0.006424        0.002627       -0.006626        0.000070        0.006766       -0.002140       -0.002298               0               0       -0.006609
+
+
+APPROXIMATED THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+K              3.4147     0.6234     0.3886
+L              0.9327     0.0361     0.0013
+B_star         0.3514     2.2707     5.1559
+R_star         0.0407     0.0047     0.0000
+I              0.3420     0.3024     0.0914
+Y              1.4442     0.3027     0.0916
+C              1.2064     0.1378     0.0190
+A              1.0000     0.1512     0.0229
+T              0.1000     0.0000     0.0000
+NX            -0.1042     0.2930     0.0859
+
+
+
+APPROXIMATED VARIANCE DECOMPOSITION (in percent)
+           eps_A   eps_T
+K         100.00    0.00
+L         100.00    0.00
+B_star    100.00    0.00
+R_star    100.00    0.00
+I         100.00    0.00
+Y         100.00    0.00
+C         100.00    0.00
+A         100.00    0.00
+T            NaN     NaN
+NX        100.00    0.00
+
+
+
+APPROXIMATED MATRIX OF CORRELATIONS
+Variables          K        L   B_star   R_star        I        Y        C        A       NX
+K             1.0000   0.2954   0.1908  -0.1908   0.4384   0.9852   0.6004   0.9664   0.2831
+L             0.2954   1.0000  -0.8811   0.8811   0.3097   0.4529  -0.5863   0.3953   0.4239
+B_star        0.1908  -0.8811   1.0000  -1.0000  -0.1273   0.0209   0.8981   0.0648  -0.2693
+R_star       -0.1908   0.8811  -1.0000   1.0000   0.1273  -0.0209  -0.8981  -0.0648   0.2693
+I             0.4384   0.3097  -0.1273   0.1273   1.0000   0.4876   0.1340   0.6475  -0.5913
+Y             0.9852   0.4529   0.0209  -0.0209   0.4876   1.0000   0.4568   0.9777   0.3152
+C             0.6004  -0.5863   0.8981  -0.8981   0.1340   0.4568   1.0000   0.4940  -0.1365
+A             0.9664   0.3953   0.0648  -0.0648   0.6475   0.9777   0.4940   1.0000   0.1096
+NX            0.2831   0.4239  -0.2693   0.2693  -0.5913   0.3152  -0.1365   0.1096   1.0000
+
+
+
+APPROXIMATED COEFFICIENTS OF AUTOCORRELATION
+Order           1        2        3        4        5
+K          0.8748   0.7065   0.5548   0.4322   0.3370
+L          0.9490   0.8708   0.7964   0.7334   0.6817
+B_star     0.9929   0.9798   0.9639   0.9466   0.9286
+R_star     0.9929   0.9798   0.9639   0.9466   0.9286
+I          0.2025  -0.0336  -0.0878  -0.0868  -0.0719
+Y          0.8532   0.6671   0.5020   0.3696   0.2676
+C          0.9817   0.9630   0.9438   0.9245   0.9052
+A          0.7500   0.5625   0.4219   0.3164   0.2373
+NX         0.4780   0.2777   0.1920   0.1494   0.1246
+Total computing time : 0h00m03s
