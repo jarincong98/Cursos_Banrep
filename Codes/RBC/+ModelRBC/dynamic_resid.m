@@ -22,15 +22,14 @@ function residual = dynamic_resid(T, y, x, params, steady_state, it_, T_flag)
 if T_flag
     T = ModelRBC.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 end
-residual = zeros(9, 1);
-    residual(1) = (y(8)) - (T(2)*T(3));
-    residual(2) = (y(4)) - (params(4)*y(5)*y(8)/y(1));
-    residual(3) = (y(3)) - ((1-params(4))*y(5)*y(8)/y(6));
-    residual(4) = (y(5)) - (T(5)*T(6));
-    residual(5) = (y(7)) - (y(1)*(1-params(3))+y(9));
-    residual(6) = (T(7)*T(8)) - (y(3));
-    residual(7) = (y(10)^(-params(1))) - (T(9)*T(10));
-    residual(8) = (y(11)) - (T(12)*(1+x(it_, 1)));
-    residual(9) = (y(8)) - (y(9)+y(10));
+residual = zeros(8, 1);
+    residual(1) = (y(7)) - (T(2)*T(3));
+    residual(2) = (y(4)) - (params(4)*y(7)/y(1));
+    residual(3) = (y(6)) - (y(1)*(1-params(3))+y(8));
+    residual(4) = (y(3)) - ((1-params(4))*y(7)/y(5));
+    residual(5) = (T(4)*T(5)) - (y(3));
+    residual(6) = (y(9)^(-params(1))) - (T(6)*(y(4)+1-params(3)));
+    residual(7) = (y(10)) - (T(8)*(1+x(it_, 1)));
+    residual(8) = (y(7)) - (y(8)+y(9));
 
 end

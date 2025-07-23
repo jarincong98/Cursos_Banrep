@@ -21,22 +21,17 @@ end
 %% Initialize indicator
 check = 0;
 
-A = Ass;
-P = 1;
-R_K = (1/beta - 1 + delta)*P;
-MC = (1/A)*(R_K/alpha)^alpha * (W/(1-alpha))^(1-alpha);
+A   = Ass;
+MC  = 1;
+P   = MC;
+R_K = (1/bbeta - 1 + delta)*P;
+W   = (P*A*(1-aalpha)^(1-aalpha)*(aalpha/R_K)^aalpha)^(1/(1-aalpha)); %Using the MC to W
+Y   = ( ( (1/psi_l) * (W/(1-aalpha))^eta * (W/P)  )^(1/sigma)  / (1-(delta*aalpha/R_K) ) )^(sigma/(sigma+eta));
+L   = (1-aalpha)*Y/W;
+C   = (1/Y)^(eta/sigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) ) ^(1/sigma);
 
-C = ;
-
-W = MC*((1-alpha)*(Y/h));
-
-
-Y = ;
-
-I = Y - C;
-L = ;
-K = delta/I;
-
+K   = delta*aalpha/R_K*Y;
+% I   = delta/K;
 
 
 % ----------------------------------------------------------------------- %

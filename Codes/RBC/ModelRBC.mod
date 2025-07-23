@@ -7,7 +7,7 @@
 var 
     W       $W$     (long_name = 'Salario') 
     R_K     $R^{K}$ (long_name = 'Renta del capital') 
-    MC      $MC$    (long_name = 'Costos marginales') 
+    % MC      $MC$    (long_name = 'Costos marginales') 
     L       $L$     (long_name = 'Labor') 
     K       $K$     (long_name = 'Capital') 
     Y       $Y$     (long_name = 'Production') 
@@ -28,9 +28,9 @@ varexo
 %----------------------------------------------------------------
 parameters  
     sigma   $\sigma$    (long_name = 'Inverse of intertemporal subs elasticity')
-    beta    $\beta$     (long_name = 'Discount factor')
+    bbeta   $\beta$     (long_name = 'Discount factor')
     delta   $\delta$    (long_name = 'Capital depreciation') 
-    alpha   $\alpha$    (long_name = 'Capital share') 
+    aalpha  $\alpha$    (long_name = 'Capital share') 
     psi_l   $\phi^{L}$  (long_name = 'psi L') 
     eta     $\eta$      (long_name = 'Frish elasticity') 
     rho     $\rho_{A}$  (long_name = 'Productivity persisitence') 
@@ -42,42 +42,44 @@ parameters
 % set parameter values 
 %----------------------------------------------------------------
 
-load params.mat;
-load SSvar.mat;
+% load params.mat;
+% load SSvar.mat;
 
-sigma = params(1);
-beta = params(2);
-delta = params(3);
-alpha = params(4);
-psi_l = params(5);
-eta = params(6);
-rho = params(7);
-Ass = params(8);
+sigma  = 2;     %params(1);
+bbeta  = 0.98;  %params(2);
+delta  = 0.05;  %params(3);
+aalpha = 0.3;   %params(4);
+psi_l  = 1;     %params(5);
+eta    = 1.5;   %params(6);
+rho    = 0.75;  %params(7);
+Ass    = 1;     %params(8);
 
 %----------------------------------------------------------------
 % Paso 4. Bloque del modelo
 %----------------------------------------------------------------
 model;
 [name = 'Función de producción']
-    Y = A*K(-1)^alpha*L^(1-alpha);
+    Y = A*K(-1)^aalpha*L^(1-aalpha);
 
 [name = 'Demanda de capital']
-    R_K = alpha*MC*(Y/K(-1));
-
-[name = 'Demanda de trabajo']
-    W = (1-alpha)*MC*(Y/L);
-
-[name = 'Costos marginales']
-    MC = (1/A)*(R_K/alpha)^alpha*(W/(1-alpha))^(1-alpha);
+    % R_K = aalpha*MC*(Y/K(-1));
+    R_K = aalpha*(Y/K(-1));
 
 [name = 'Ley de acumulación de capital']
     K = (1-delta)*K(-1) + I;
 
+[name = 'Demanda de trabajo']
+    % W = (1-aalpha)*MC*(Y/L);
+    W = (1-aalpha)*(Y/L);
+
 [name = 'Oferta de trabajo']
     psi_l*L^eta*C^sigma = W;
 
+% [name = 'Costos marginales']
+    % MC = (1/A)*(R_K/aalpha)^aalpha*(W/(1-aalpha))^(1-aalpha);
+
 [name = 'Ecuación de Euler']
-    C^(-sigma) = beta*C(+1)^(-sigma)*(1-delta+alpha*Y(+1)/K);
+    C^(-sigma) = bbeta*C(+1)^(-sigma)*(1 - delta + R_K);
 
 [name = 'Productividad']
     A = A(-1)^rho*Ass^(1-rho)*(1+eps_A);
@@ -86,34 +88,13 @@ model;
      Y = C + I;
 end;
 
-%----------------------------------------------------------------
-%  Initial values
-%---------------------------------------------------------------
-
-initval;
-
-L = SSvar(1);
-K = SSvar(2);
-Y = SSvar(3);
-I = SSvar(4);
-C = SSvar(5);
-A = SSvar(6);
-
-end;
-
-% Escritura del modelo en LaTeX
-write_latex_parameter_table;
-write_latex_definitions;
-write_latex_original_model(write_equation_tags);
-collect_latex_files;
-
-return;
+% return;
 %----------------------------------------------------------------
 % Paso 5. Opciones de Dynare
 %----------------------------------------------------------------
-resid;              % Cálculo de residuales
-check;              % Chequeo de condiciones de Blanchar y Kahn
-steady;             % Cálculo del estado estacionario
+% resid;              % Cálculo de residuales
+% check;              % Chequeo de condiciones de Blanchar y Kahn
+% steady;             % Cálculo del estado estacionario
 model_diagnostics;  % Diagnóstico del modelo
 
 %----------------------------------------------------------------
@@ -123,5 +104,10 @@ shocks;
     var eps_A = 0.01;
 end;
 % Simulación estocástica
-    stoch_simul(periods = 1000, irf=40) Y C I L K;
+    stoch_simul(periods = 1000, irf=40) ;
 
+% Escritura del modelo en LaTeX
+write_latex_parameter_table;
+write_latex_definitions;
+write_latex_original_model(write_equation_tags);
+collect_latex_files;
