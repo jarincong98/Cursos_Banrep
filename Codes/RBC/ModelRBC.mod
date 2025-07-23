@@ -1,22 +1,40 @@
-%%%  RBC Code
-%----------------------------------------------------------------
-% define variables 
-%----------------------------------------------------------------
+%% Modelo RBC / Economía cerrada
+%% Autor: Óscar Ávila
 
-var L K Y I C A
+%----------------------------------------------------------------
+% Paso 1: Definición de variables endógenas
+%----------------------------------------------------------------
+var 
+    W       $W$     (long_name = 'Salario') 
+    R_K     $R^{K}$ (long_name = 'Renta del capital') 
+    MC      $MC$    (long_name = 'Costos marginales') 
+    L       $L$     (long_name = 'Labor') 
+    K       $K$     (long_name = 'Capital') 
+    Y       $Y$     (long_name = 'Production') 
+    I       $I$     (long_name = 'Investment') 
+    C       $C$     (long_name = 'Consumption') 
+    A       $A$     (long_name = 'Productivity') 
 ;
 
-varexo eps_A
-
+%----------------------------------------------------------------
+% Paso 2: Definición de variables exógenas
+%----------------------------------------------------------------
+varexo 
+    eps_A   $\epsilon^{A}$ (long_name = 'Productivity shock') 
 ;
 
 %----------------------------------------------------------------
-% define parameters
+% Paso 3: Parámetros del modelo
 %----------------------------------------------------------------
-
-parameters  sigma beta delta alpha psi_l eta rho Ass  
-                    
-      
+parameters  
+    sigma   $\sigma$    (long_name = 'Inverse of intertemporal subs elasticity')
+    beta    $\beta$     (long_name = 'Discount factor')
+    delta   $\delta$    (long_name = 'Capital depreciation') 
+    alpha   $\alpha$    (long_name = 'Capital share') 
+    psi_l   $\phi^{L}$  (long_name = 'psi L') 
+    eta     $\eta$      (long_name = 'Frish elasticity') 
+    rho     $\rho_{A}$  (long_name = 'Productivity persisitence') 
+    Ass     $A$         (long_name = 'Productivity steady state') 
 ;
 
 
@@ -37,24 +55,35 @@ rho = params(7);
 Ass = params(8);
 
 %----------------------------------------------------------------
-% enter model equations
+% Paso 4. Bloque del modelo
 %----------------------------------------------------------------
 model;
+[name = 'Función de producción']
+    Y = A*K(-1)^alpha*L^(1-alpha);
 
-[name='Y']
-Y = A*K(-1)^alpha*L^(1-alpha);
+[name = 'Demanda de capital']
+    R_K = alpha*MC*(Y/K(-1));
 
-K = (1-delta)*K(-1)+I;
+[name = 'Demanda de trabajo']
+    W = (1-alpha)*MC*(Y/L);
 
-C = Y - I;
+[name = 'Costos marginales']
+    MC = (1/A)*(R_K/alpha)^alpha*(W/(1-alpha))^(1-alpha);
 
-psi_l*L^eta = C^(-sigma)*(1-alpha)*Y/L;
+[name = 'Ley de acumulación de capital']
+    K = (1-delta)*K(-1) + I;
 
-C^(-sigma) = beta*C(+1)^(-sigma)*(1-delta+alpha*Y(+1)/K);
+[name = 'Oferta de trabajo']
+    psi_l*L^eta*C^sigma = W;
 
-A = A(-1)^rho*Ass^(1-rho)*(1+eps_A);
+[name = 'Ecuación de Euler']
+    C^(-sigma) = beta*C(+1)^(-sigma)*(1-delta+alpha*Y(+1)/K);
 
+[name = 'Productividad']
+    A = A(-1)^rho*Ass^(1-rho)*(1+eps_A);
 
+[name = 'Demanda agregada']
+     Y = C + I;
 end;
 
 %----------------------------------------------------------------
@@ -71,16 +100,28 @@ C = SSvar(5);
 A = SSvar(6);
 
 end;
-model_diagnostics;
-resid;
-check;
-steady;
 
-shocks;
-var eps_A = 0.01;
-end;
+% Escritura del modelo en LaTeX
+write_latex_parameter_table;
+write_latex_definitions;
+write_latex_original_model(write_equation_tags);
+collect_latex_files;
+
+return;
+%----------------------------------------------------------------
+% Paso 5. Opciones de Dynare
+%----------------------------------------------------------------
+resid;              % Cálculo de residuales
+check;              % Chequeo de condiciones de Blanchar y Kahn
+steady;             % Cálculo del estado estacionario
+model_diagnostics;  % Diagnóstico del modelo
 
 %----------------------------------------------------------------
-%  Simul-IRF
-%---------------------------------------------------------------
-stoch_simul(periods = 1000, irf=40) Y C I L K;
+% Paso 6. Productos de Dynare
+%----------------------------------------------------------------
+shocks;
+    var eps_A = 0.01;
+end;
+% Simulación estocástica
+    stoch_simul(periods = 1000, irf=40) Y C I L K;
+

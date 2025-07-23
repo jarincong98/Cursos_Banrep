@@ -1,0 +1,116 @@
+%% Modelo RBC / Economía cerrada
+%% Autor: Óscar Ávila
+
+%----------------------------------------------------------------
+% Paso 1: Definición de variables endógenas
+%----------------------------------------------------------------
+var 
+    L       $L$     (long_name = 'Labor') 
+    K       $K$     (long_name = 'Capital') 
+    Y       $Y$     (long_name = 'Production') 
+    I       $I$     (long_name = 'Investment') 
+    C       $C$     (long_name = 'Consumption') 
+    A       $A$     (long_name = 'Productivity') 
+;
+
+%----------------------------------------------------------------
+% Paso 2: Definición de variables exógenas
+%----------------------------------------------------------------
+varexo 
+    eps_A   $\epsilon^{A}$ (long_name = 'Productivity shock') 
+;
+
+%----------------------------------------------------------------
+% Paso 3: Parámetros del modelo
+%----------------------------------------------------------------
+parameters  
+    sigma   $\sigma$    (long_name = 'Inverse of intertemporal subs elasticity')
+    beta    $\beta$     (long_name = 'Discount factor')
+    delta   $\delta$    (long_name = 'Capital depreciation') 
+    alpha   $\alpha$    (long_name = 'Capital share') 
+    psi_l   $\phi^{L}$  (long_name = 'psi L') 
+    eta     $\eta$      (long_name = 'Frish elasticity') 
+    rho     $\rho_{A}$  (long_name = 'Productivity persisitence') 
+    Ass     $A$         (long_name = 'Productivity steady state') 
+;
+
+
+%----------------------------------------------------------------
+% set parameter values 
+%----------------------------------------------------------------
+
+load params.mat;
+load SSvar.mat;
+
+sigma = params(1);
+beta = params(2);
+delta = params(3);
+alpha = params(4);
+psi_l = params(5);
+eta = params(6);
+rho = params(7);
+Ass = params(8);
+
+%----------------------------------------------------------------
+% Paso 4. Bloque del modelo
+%----------------------------------------------------------------
+model;
+
+[name='Función de producción']
+    Y = A*K(-1)^alpha*L^(1-alpha);
+
+[name='Ley de acumulación de capital']
+    K = (1-delta)*K(-1) + I;
+
+[name = 'Demanda agregada']
+     Y = C + I;
+
+[name = 'Oferta de trabajo']
+    psi_l*L^eta = C^(-sigma)*(1-alpha)*Y/L;
+
+[name = 'Ecuación de Euler']
+    C^(-sigma) = beta*C(+1)^(-sigma)*(1-delta+alpha*Y(+1)/K);
+
+[name = 'Productividad']
+    A = A(-1)^rho*Ass^(1-rho)*(1+eps_A);
+
+end;
+
+%----------------------------------------------------------------
+%  Initial values
+%---------------------------------------------------------------
+
+initval;
+
+L = SSvar(1);
+K = SSvar(2);
+Y = SSvar(3);
+I = SSvar(4);
+C = SSvar(5);
+A = SSvar(6);
+
+end;
+
+
+%----------------------------------------------------------------
+% Paso 5. Opciones de Dynare
+%----------------------------------------------------------------
+resid;              % Cálculo de residuales
+check;              % Chequeo de condiciones de Blanchar y Kahn
+steady;             % Cálculo del estado estacionario
+model_diagnostics;  % Diagnóstico del modelo
+
+%----------------------------------------------------------------
+% Paso 6. Productos de Dynare
+%----------------------------------------------------------------
+shocks;
+    var eps_A = 0.01;
+end;
+% Simulación estocástica
+    stoch_simul(periods = 1000, irf=40) Y C I L K;
+
+% Escritura del modelo en LaTeX
+write_latex_parameter_table;
+write_latex_definitions;
+write_latex_original_model(write_equation_tags);
+collect_latex_files;

@@ -4,7 +4,7 @@ clc; %Clean space
 clear all; %Clean workspace
 close all; %Close figures
 
-addpath C:\dynare\6.2\matlab;
+% addpath C:\dynare\6.2\matlab;
 
 
 %% Parameters
