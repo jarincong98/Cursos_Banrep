@@ -6,11 +6,11 @@ Evaluating expressions...
 Computing static model derivatives (order 1). 
 Normalizing the static model... 
 Finding the optimal block decomposition of the static model... 
-2 block(s) found: 
-  1 recursive block(s) and 1 simultaneous block(s). 
-  the largest simultaneous block has 7 equation(s) 
-                                 and 7 feedback variable(s). 
-Computing dynamic model derivatives (order 2). 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 6 equation(s) 
+                                 and 6 feedback variable(s). 
+Computing dynamic model derivatives (order 1). 
 Normalizing the dynamic model... 
 Finding the optimal block decomposition of the dynamic model... 
 2 block(s) found: 
@@ -19,59 +19,39 @@ Finding the optimal block decomposition of the dynamic model...
                                  and 7 feedback variable(s). 
 Preprocessing completed. 
 Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number 1: Función de producción         :       0.000000
+Equation number 2: Demanda de capital            :       0.000000
+Equation number 3: Ley de acumulación de capital :       0.000000
+Equation number 4: Demanda de trabajo            :       0.000000
+Equation number 5: Oferta de trabajo             :       0.000000
+Equation number 6: Ecuación de Euler             :       0.000000
+Equation number 7: Productividad                 :       0.000000
+Equation number 8: Demanda agregada              :       0.000000
+
+
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+            0.75             0.75                0
+          0.9168           0.9168                0
+           1.104            1.104                0
+
+There are 1 eigenvalue(s) larger than 1 in modulus for 1 forward-looking variable(s)
+The rank condition is verified.
+
+
+STEADY-STATE RESULTS:
+
+W   		 1.30282
+R_K 		 0.0704082
+L   		 0.867197
+K   		 6.87703
+Y   		 1.614
+I   		 0.343851
+C   		 1.27014
+A   		 1
 MODEL_DIAGNOSTICS:  No obvious problems with this mod-file were detected.
-
-MODEL SUMMARY
-
-  Number of variables:         8
-  Number of stochastic shocks: 1
-  Number of state variables:   2
-  Number of jumpers:           1
-  Number of static variables:  5
-
-
-MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
-Variables       eps_A
-eps_A        0.010000
-
-POLICY AND TRANSITION FUNCTIONS
-                                   Y               C               I               L               K
-Constant                    1.627172        1.256814        0.370358        0.877310        6.903535
-(correction)                0.013175       -0.013331        0.026506        0.010113        0.026506
-K(-1)                       0.032660        0.065898       -0.033238       -0.028974        0.916762
-A(-1)                       1.499467        0.183924        1.315543        0.221804        1.315543
-eps_A                       1.999290        0.245232        1.754057        0.295739        1.754057
-K(-1),K(-1)                -0.002473       -0.002648        0.000175        0.002262        0.000175
-A(-1),K(-1)                 0.040770       -0.001008        0.041778        0.000593        0.041778
-A(-1),A(-1)                -0.070470       -0.061172       -0.009298       -0.095792       -0.009298
-eps_A,eps_A                 0.207934       -0.067879        0.275813       -0.121007        0.275813
-K(-1),eps_A                 0.054360       -0.001345        0.055704        0.000791        0.055704
-A(-1),eps_A                 1.811368        0.082106        1.729262        0.040294        1.729262
-
-
-MOMENTS OF SIMULATED VARIABLES
-VARIABLE              MEAN       STD. DEV.        VARIANCE        SKEWNESS        KURTOSIS
-Y                 1.569733        0.314769        0.099079        0.413259        0.263795
-C                 1.231751        0.114929        0.013209        0.183620        0.055747
-I                 0.337983        0.240777        0.057974        0.364388        0.202796
-L                 0.875898        0.046866        0.002196       -0.153866       -0.074305
-K                 6.717585        1.473153        2.170181        0.615942        0.624722
-
-
-CORRELATION OF SIMULATED VARIABLES
-VARIABLE          Y        C        I        L        K
-Y            1.0000   0.7507   0.9490   0.4668   0.6560
-C            0.7507   1.0000   0.5041  -0.2222   0.9861
-I            0.9490   0.5041   1.0000   0.7164   0.3869
-L            0.4668  -0.2222   0.7164   1.0000  -0.3449
-K            0.6560   0.9861   0.3869  -0.3449   1.0000
-
-
-AUTOCORRELATION OF SIMULATED VARIABLES
-VARIABLE         1       2       3       4       5
-Y           0.7923  0.6189  0.4732  0.3667  0.2934
-C           0.9746  0.9360  0.8880  0.8370  0.7858
-I           0.7136  0.4820  0.2946  0.1642  0.0812
-L           0.7440  0.5359  0.3552  0.2335  0.1563
-K           0.9862  0.9563  0.9153  0.8684  0.8192
-Total computing time : 0h00m21s
+Total computing time : 0h00m00s

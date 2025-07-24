@@ -24,8 +24,8 @@ residual = zeros(8, 1);
     residual(3) = (y(4)) - (y(4)*(1-params(3))+y(6));
     residual(4) = (y(1)) - ((1-params(4))*y(5)/y(3));
     residual(5) = (T(4)*T(5)) - (y(1));
-    residual(6) = (T(6)) - (T(6)*params(2)*(y(2)+1-params(3)));
-    residual(7) = (y(8)) - (y(8)^params(7)*T(7)*(1+x(1)));
+    residual(6) = (1) - (params(2)*(y(2)+1-params(3)));
+    residual(7) = (y(8)) - (y(8)^params(8)*T(6)*(1+x(1)));
     residual(8) = (y(5)) - (y(6)+y(7));
 
 end

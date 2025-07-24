@@ -25,11 +25,11 @@ end
 residual = zeros(8, 1);
     residual(1) = (y(7)) - (T(2)*T(3));
     residual(2) = (y(4)) - (params(4)*y(7)/y(1));
-    residual(3) = (y(6)) - (y(1)*(1-params(3))+y(8));
+    residual(3) = (y(6)) - (y(1)*(1-params(3))+y(8)+params(6)/2*(y(6)-y(1))^2);
     residual(4) = (y(3)) - ((1-params(4))*y(7)/y(5));
     residual(5) = (T(4)*T(5)) - (y(3));
-    residual(6) = (y(9)^(-params(1))) - (T(6)*(y(4)+1-params(3)));
-    residual(7) = (y(10)) - (T(8)*(1+x(it_, 1)));
+    residual(6) = ((y(11)/y(9))^params(1)) - (params(2)*(y(4)+1-params(3)+params(6)*(y(6)-y(1))));
+    residual(7) = (y(10)) - (T(7)*(1+x(it_, 1)));
     residual(8) = (y(7)) - (y(8)+y(9));
 
 end

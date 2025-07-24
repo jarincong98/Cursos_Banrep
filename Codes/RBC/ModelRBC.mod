@@ -1,5 +1,5 @@
 %% Modelo RBC / Economía cerrada
-%% Autor: Óscar Ávila
+%% Autor: Óscar Ávila - Fredy A. Castañeda - Juan A. Rincón
 
 %----------------------------------------------------------------
 % Paso 1: Definición de variables endógenas
@@ -7,20 +7,19 @@
 var 
     W       $W$     (long_name = 'Salario') 
     R_K     $R^{K}$ (long_name = 'Renta del capital') 
-    % MC      $MC$    (long_name = 'Costos marginales') 
-    L       $L$     (long_name = 'Labor') 
+    L       $L$     (long_name = 'Trabajo') 
     K       $K$     (long_name = 'Capital') 
-    Y       $Y$     (long_name = 'Production') 
-    I       $I$     (long_name = 'Investment') 
-    C       $C$     (long_name = 'Consumption') 
-    A       $A$     (long_name = 'Productivity') 
+    Y       $Y$     (long_name = 'Produción') 
+    I       $I$     (long_name = 'Inversión') 
+    C       $C$     (long_name = 'Consumo') 
+    A       $A$     (long_name = 'Productividad') 
 ;
 
 %----------------------------------------------------------------
 % Paso 2: Definición de variables exógenas
 %----------------------------------------------------------------
 varexo 
-    eps_A   $\epsilon^{A}$ (long_name = 'Productivity shock') 
+    eps_A   $\epsilon^{A}$ (long_name = 'Choque de productividad') 
 ;
 
 %----------------------------------------------------------------
@@ -28,31 +27,28 @@ varexo
 %----------------------------------------------------------------
 parameters  
     sigma   $\sigma$    (long_name = 'Inverse of intertemporal subs elasticity')
-    bbeta   $\beta$     (long_name = 'Discount factor')
-    delta   $\delta$    (long_name = 'Capital depreciation') 
-    aalpha  $\alpha$    (long_name = 'Capital share') 
+    bbeta   $\beta$     (long_name = 'Factor de descuento')
+    delta   $\delta$    (long_name = 'Depreciación del capital') 
+    aalpha  $\alpha$    (long_name = 'Part. del capital en la producción') 
     psi_l   $\phi^{L}$  (long_name = 'psi L') 
-    eta     $\eta$      (long_name = 'Frish elasticity') 
-    rho     $\rho_{A}$  (long_name = 'Productivity persisitence') 
-    Ass     $A$         (long_name = 'Productivity steady state') 
+    pphi_K  $\phi^{K}$  (long_name = 'Costo de ajuste del capital') 
+    eta     $\eta$      (long_name = 'Elasticidad de Frish') 
+    rho     $\rho_{A}$  (long_name = 'Persistencia de la productividad') 
+    Ass     $A$         (long_name = 'Estado estacionario de la productividad') 
 ;
 
-
 %----------------------------------------------------------------
-% set parameter values 
+% Asignación de valores a los parámetros
 %----------------------------------------------------------------
-
-% load params.mat;
-% load SSvar.mat;
-
-sigma  = 2;     %params(1);
-bbeta  = 0.98;  %params(2);
-delta  = 0.05;  %params(3);
-aalpha = 0.3;   %params(4);
-psi_l  = 1;     %params(5);
-eta    = 1.5;   %params(6);
-rho    = 0.75;  %params(7);
-Ass    = 1;     %params(8);
+    sigma  = 2;
+    bbeta  = 0.98;
+    delta  = 0.05;
+    aalpha = 0.3;
+    psi_l  = 1;
+    pphi_K = 0;
+    eta    = 1.5;
+    rho    = 0.75;
+    Ass    = 1;
 
 %----------------------------------------------------------------
 % Paso 4. Bloque del modelo
@@ -62,24 +58,19 @@ model;
     Y = A*K(-1)^aalpha*L^(1-aalpha);
 
 [name = 'Demanda de capital']
-    % R_K = aalpha*MC*(Y/K(-1));
     R_K = aalpha*(Y/K(-1));
 
 [name = 'Ley de acumulación de capital']
-    K = (1-delta)*K(-1) + I;
+    K = (1-delta)*K(-1) + I + (pphi_K/2)*(K - K(-1))^2;
 
 [name = 'Demanda de trabajo']
-    % W = (1-aalpha)*MC*(Y/L);
     W = (1-aalpha)*(Y/L);
 
 [name = 'Oferta de trabajo']
     psi_l*L^eta*C^sigma = W;
 
-% [name = 'Costos marginales']
-    % MC = (1/A)*(R_K/aalpha)^aalpha*(W/(1-aalpha))^(1-aalpha);
-
 [name = 'Ecuación de Euler']
-    C^(-sigma) = bbeta*C(+1)^(-sigma)*(1 - delta + R_K);
+    (C(+1)/C)^(sigma) = bbeta*(R_K + (1 - delta) + pphi_K*(K - K(-1)));
 
 [name = 'Productividad']
     A = A(-1)^rho*Ass^(1-rho)*(1+eps_A);
@@ -87,27 +78,29 @@ model;
 [name = 'Demanda agregada']
      Y = C + I;
 end;
-
-% return;
 %----------------------------------------------------------------
 % Paso 5. Opciones de Dynare
 %----------------------------------------------------------------
-% resid;              % Cálculo de residuales
-% check;              % Chequeo de condiciones de Blanchar y Kahn
-% steady;             % Cálculo del estado estacionario
-model_diagnostics;  % Diagnóstico del modelo
-
+    resid;              % Cálculo de residuales
+    check;              % Chequeo de condiciones de Blanchar y Kahn
+    steady;             % Cálculo del estado estacionario
+    model_diagnostics;  % Diagnóstico del modelo
 %----------------------------------------------------------------
 % Paso 6. Productos de Dynare
 %----------------------------------------------------------------
 shocks;
     var eps_A = 0.01;
 end;
+
 % Simulación estocástica
-    stoch_simul(periods = 1000, irf=40) ;
+    % stoch_simul(order=1,irf=40) ;
+
+    % Descomentar para el ejercicio 2
+    stoch_simul(order=1,irf=40, relative_irf, nograph, noprint) ; 
+   
 
 % Escritura del modelo en LaTeX
-write_latex_parameter_table;
-write_latex_definitions;
-write_latex_original_model(write_equation_tags);
-collect_latex_files;
+    write_latex_parameter_table;
+    write_latex_definitions;
+    write_latex_original_model(write_equation_tags);
+    collect_latex_files;
