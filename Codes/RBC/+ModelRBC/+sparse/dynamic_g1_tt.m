@@ -4,8 +4,8 @@ if T_order >= 1
 end
 [T_order, T] = ModelRBC.sparse.dynamic_resid_tt(y, x, params, steady_state, T_order, T);
 T_order = 1;
-if size(T, 1) < 8
-    T = [T; NaN(8 - size(T, 1), 1)];
+if size(T, 1) < 7
+    T = [T; NaN(7 - size(T, 1), 1)];
 end
-T(8) = getPowerDeriv(y(23)/y(15),params(1),1);
+T(7) = getPowerDeriv(y(19)/y(11),params(1),1);
 end

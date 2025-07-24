@@ -45,13 +45,13 @@ The rank condition is verified.
 
 STEADY-STATE RESULTS:
 
-W   		 1.30282
-R_K 		 0.0704082
-L   		 0.867197
-K   		 6.87703
-Y   		 1.614
-I   		 0.343851
-C   		 1.27014
 A   		 1
+Y   		 1.614
+C   		 1.27014
+I   		 0.343851
+W   		 1.30282
+L   		 0.867197
+R_K 		 0.0704082
+K   		 6.87703
 MODEL_DIAGNOSTICS:  No obvious problems with this mod-file were detected.
 Total computing time : 0h00m00s

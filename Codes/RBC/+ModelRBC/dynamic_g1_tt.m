@@ -18,10 +18,10 @@ function T = dynamic_g1_tt(T, y, x, params, steady_state, it_)
 %   T           [#temp variables by 1]       double  vector of temporary terms
 %
 
-assert(length(T) >= 8);
+assert(length(T) >= 7);
 
 T = ModelRBC.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 
-T(8) = getPowerDeriv(y(11)/y(9),params(1),1);
+T(7) = getPowerDeriv(y(11)/y(5),params(1),1);
 
 end

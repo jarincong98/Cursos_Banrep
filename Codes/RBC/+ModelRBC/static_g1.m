@@ -19,25 +19,25 @@ if T_flag
     T = ModelRBC.static_g1_tt(T, y, x, params);
 end
 g1 = zeros(8, 8);
-g1(1,3)=(-(T(2)*getPowerDeriv(y(3),1-params(4),1)));
-g1(1,4)=(-(T(3)*y(8)*getPowerDeriv(y(4),params(4),1)));
-g1(1,5)=1;
-g1(1,8)=(-(T(1)*T(3)));
-g1(2,2)=1;
-g1(2,4)=(-(params(4)*(-y(5))/(y(4)*y(4))));
-g1(2,5)=(-(params(4)*1/y(4)));
-g1(3,4)=1-(1-params(3));
-g1(3,6)=(-1);
-g1(4,1)=1;
-g1(4,3)=(-((1-params(4))*(-y(5))/(y(3)*y(3))));
-g1(4,5)=(-((1-params(4))*1/y(3)));
-g1(5,1)=(-1);
-g1(5,3)=T(5)*params(5)*getPowerDeriv(y(3),params(7),1);
-g1(5,7)=T(4)*getPowerDeriv(y(7),params(1),1);
-g1(6,2)=(-params(2));
-g1(7,8)=1-(1+x(1))*T(6)*getPowerDeriv(y(8),params(8),1);
-g1(8,5)=1;
-g1(8,6)=(-1);
-g1(8,7)=(-1);
+g1(1,1)=(-(T(1)*T(2)));
+g1(1,2)=1;
+g1(1,6)=(-(y(1)*T(1)*getPowerDeriv(y(6),1-params(4),1)));
+g1(1,8)=(-(T(2)*y(1)*getPowerDeriv(y(8),params(4),1)));
+g1(2,2)=(-(params(4)*1/y(8)));
+g1(2,7)=1;
+g1(2,8)=(-(params(4)*(-y(2))/(y(8)*y(8))));
+g1(3,4)=(-1);
+g1(3,8)=1-(1-params(3));
+g1(4,2)=(-((1-params(4))*1/y(6)));
+g1(4,5)=1;
+g1(4,6)=(-((1-params(4))*(-y(2))/(y(6)*y(6))));
+g1(5,3)=T(3)*getPowerDeriv(y(3),params(1),1);
+g1(5,5)=(-1);
+g1(5,6)=T(4)*params(5)*getPowerDeriv(y(6),params(7),1);
+g1(6,7)=(-params(2));
+g1(7,1)=1-(1+x(1))*T(5)*getPowerDeriv(y(1),params(8),1);
+g1(8,2)=1;
+g1(8,3)=(-1);
+g1(8,4)=(-1);
 
 end

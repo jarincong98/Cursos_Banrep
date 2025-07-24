@@ -5,14 +5,16 @@
 % Paso 1: Definición de variables endógenas
 %----------------------------------------------------------------
 var 
-    W       $W$     (long_name = 'Salario') 
-    R_K     $R^{K}$ (long_name = 'Renta del capital') 
-    L       $L$     (long_name = 'Trabajo') 
-    K       $K$     (long_name = 'Capital') 
-    Y       $Y$     (long_name = 'Produción') 
-    I       $I$     (long_name = 'Inversión') 
-    C       $C$     (long_name = 'Consumo') 
     A       $A$     (long_name = 'Productividad') 
+    Y       $Y$     (long_name = 'Producción') 
+    C       $C$     (long_name = 'Consumo') 
+    I       $I$     (long_name = 'Inversión')     
+    W       $W$     (long_name = 'Salario') 
+    L       $L$     (long_name = 'Trabajo') 
+    R_K     $R^{K}$ (long_name = 'Renta del capital') 
+    K       $K$     (long_name = 'Capital') 
+    
+    
 ;
 
 %----------------------------------------------------------------
@@ -47,7 +49,7 @@ parameters
     psi_l  = 1;
     pphi_K = 0;
     eta    = 1.5;
-    rho    = 0.75;
+    rho    = 0.75; % ParamsInDynare;% 
     Ass    = 1;
 
 %----------------------------------------------------------------

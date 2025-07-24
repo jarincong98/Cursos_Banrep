@@ -23,13 +23,13 @@ if T_flag
     T = ModelRBC.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 end
 residual = zeros(8, 1);
-    residual(1) = (y(7)) - (T(2)*T(3));
-    residual(2) = (y(4)) - (params(4)*y(7)/y(1));
-    residual(3) = (y(6)) - (y(1)*(1-params(3))+y(8)+params(6)/2*(y(6)-y(1))^2);
-    residual(4) = (y(3)) - ((1-params(4))*y(7)/y(5));
-    residual(5) = (T(4)*T(5)) - (y(3));
-    residual(6) = ((y(11)/y(9))^params(1)) - (params(2)*(y(4)+1-params(3)+params(6)*(y(6)-y(1))));
-    residual(7) = (y(10)) - (T(7)*(1+x(it_, 1)));
-    residual(8) = (y(7)) - (y(8)+y(9));
+    residual(1) = (y(4)) - (y(3)*T(1)*T(2));
+    residual(2) = (y(9)) - (params(4)*y(4)/y(2));
+    residual(3) = (y(10)) - (y(2)*(1-params(3))+y(6)+params(6)/2*(y(10)-y(2))^2);
+    residual(4) = (y(7)) - ((1-params(4))*y(4)/y(8));
+    residual(5) = (T(3)*T(4)) - (y(7));
+    residual(6) = ((y(11)/y(5))^params(1)) - (params(2)*(y(9)+1-params(3)+params(6)*(y(10)-y(2))));
+    residual(7) = (y(3)) - (T(6)*(1+x(it_, 1)));
+    residual(8) = (y(4)) - (y(6)+y(5));
 
 end
