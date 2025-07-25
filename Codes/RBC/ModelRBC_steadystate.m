@@ -25,12 +25,14 @@ A   = Ass;
 MC  = 1;
 P   = MC;
 R_K = (1/bbeta - 1 + delta)*P;
-W   = (P*A*(1-aalpha)^(1-aalpha)*(aalpha/R_K)^aalpha)^(1/(1-aalpha)); %Using the MC to W
+W   = (P*A*(1-aalpha)^(1-aalpha)*(aalpha/R_K)^aalpha)^(1/(1-aalpha)); % Using the MC to W
 Y   = ( ( (1/psi_l) * (W/(1-aalpha))^eta * (W/P)  )^(1/sigma)  / (1-(delta*aalpha/R_K) ) )^(sigma/(sigma+eta));
 L   = (1-aalpha)*Y/W;
 C   = (1/Y)^(eta/sigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) ) ^(1/sigma);
 I   = (delta*aalpha/R_K*Y);
 K   = (aalpha/R_K)*Y;
+
+Y_rel = 1;
 
 % ----------------------------------------------------------------------- %
 %% Return steady state  
@@ -45,5 +47,4 @@ for ii = 1:NumberOfEndogenousVariables
     varname = M_.endo_names{ii};
     eval(['ys(' int2str(ii) ') = ' varname ';']);
 end 
-
 %% END OF THE MODEL SPECIFIC BLOCK

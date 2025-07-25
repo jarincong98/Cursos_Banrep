@@ -7,6 +7,7 @@
 var 
     A       $A$     (long_name = 'Productividad') 
     Y       $Y$     (long_name = 'Producción') 
+    Y_rel   $Y^{Rel}$ (long_name = 'Producción Rel. al SS') 
     C       $C$     (long_name = 'Consumo') 
     I       $I$     (long_name = 'Inversión')     
     W       $W$     (long_name = 'Salario') 
@@ -49,7 +50,7 @@ parameters
     psi_l  = 1;
     pphi_K = 0;
     eta    = 1.5;
-    rho    = 0.75; % ParamsInDynare;% 
+    rho    = 0.75;%ParamsInDynare;% 0.75; % ParamsInDynare;% 
     Ass    = 1;
 
 %----------------------------------------------------------------
@@ -79,6 +80,9 @@ model;
 
 [name = 'Demanda agregada']
      Y = C + I;
+
+[name = 'Producción relativa al SS']
+    Y_rel = Y/steady_state(Y);     
 end;
 %----------------------------------------------------------------
 % Paso 5. Opciones de Dynare
@@ -91,14 +95,14 @@ end;
 % Paso 6. Productos de Dynare
 %----------------------------------------------------------------
 shocks;
-    var eps_A = 0.01;
+    var eps_A ; stderr 1;
 end;
 
 % Simulación estocástica
     % stoch_simul(order=1,irf=40) ;
 
-    % Descomentar para el ejercicio 2
-    stoch_simul(order=1,irf=40, relative_irf, nograph, noprint) ; 
+% Descomentar para el ejercicio 2 y 3
+    stoch_simul(order=1,irf=20, nograph, noprint) ; 
    
 
 % Escritura del modelo en LaTeX

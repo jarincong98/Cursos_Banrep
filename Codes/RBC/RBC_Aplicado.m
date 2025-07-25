@@ -50,14 +50,14 @@ if Ej2
                 'Linewidth', 2, ... 
                 'Color', Colors(aa,1:end)); 
             grid on;
-            ylabel('pbs'); xlabel('Trimestres'); 
+             xlabel('Periodos'); 
             yline(0);
             title(endo_names_long{aa});
         end
     sgtitle(Title_exo_names{1:end});
 
     figure('Color','White', 'Name', 'Choque de productividad II')
-    Colors = parula(4);
+    Colors = parula(5);
     for aa = 1:length(endo_names)-4
             variable = [endo_names{aa} '_' exo_names{1:end}];
         subplot(2,2,[1,3])
@@ -65,13 +65,14 @@ if Ej2
                 'Linewidth', 2, ... 
                 'Color', Colors(aa,1:end)); hold on ;
             grid on;
-            ylabel('pbs'); xlabel('Trimestres'); 
+             xlabel('Periodos'); 
 
     end
     legend(endo_names_long{1} , ...
         endo_names_long{2}, ...
         endo_names_long{3}, ...
-        endo_names_long{4} ...
+        endo_names_long{4}, ...
+        endo_names_long{5} ...
         );
 
         subplot(2,2,2)
@@ -79,7 +80,7 @@ if Ej2
             plot(irfs.L_eps_A,'Linewidth', 2,'Color', Colors(2,1:end));
                 legend('Salario','Trabajo');  
                 grid on;
-            ylabel('pbs'); xlabel('Trimestres'); 
+             xlabel('Periodos'); 
             title('Mercado de trabajo');
     
         subplot(2,2,4)
@@ -87,7 +88,7 @@ if Ej2
             plot(irfs.K_eps_A,'Linewidth', 2,'Color', Colors(4,1:end));
                 legend('Renta del capital','Capital');  
                 grid on;
-            ylabel('pbs'); xlabel('Trimestres'); 
+             xlabel('Periodos'); 
             title('Mercado de capital');
     
     sgtitle(Title_exo_names{1:end});    
@@ -102,7 +103,7 @@ if Ej3
     %% == Inputs
     % == NO OLVIDE CAMBIAR EL NOMBRE EN DYNARE == %
         ParamsName = 'rho';   %'aalpha';       'pphi_K';  'delta';   
-        Params     = 0:0.1:1; %[0.3:0.1:0.75]; [0:0.1:1]; [0 0.05 1]; 
+        Params     = 0:0.5:0.9; %[0.3:0.1:0.75]; [0:0.1:1]; [0 0.05 1]; 
     % == NO OLVIDE CAMBIAR EL NOMBRE EN DYNARE == %
 
     %% == Code
@@ -145,7 +146,7 @@ if Ej3
                 ParamsValue = Ej3_Results.(['M' num2str(bb) '_']).params(ParamsPosition);
                 Ej3_Legend{1,bb} = [param_names_tex{ParamsPosition} ' = ' num2str(ParamsValue)];
             end
-            ylabel('pbs'); xlabel('Trimestres'); grid on;
+             xlabel('Periodos'); grid on;
         title(endo_names_long{aa}); 
         end
 

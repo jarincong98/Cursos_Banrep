@@ -1,20 +1,20 @@
 Starting Dynare (version 6.1).
 Calling Dynare with arguments: none
 Starting preprocessing of the model file ... 
-Found 8 equation(s). 
+Found 9 equation(s). 
 Evaluating expressions... 
 Computing static model derivatives (order 1). 
 Normalizing the static model... 
 Finding the optimal block decomposition of the static model... 
-3 block(s) found: 
-  2 recursive block(s) and 1 simultaneous block(s). 
+4 block(s) found: 
+  3 recursive block(s) and 1 simultaneous block(s). 
   the largest simultaneous block has 6 equation(s) 
                                  and 6 feedback variable(s). 
 Computing dynamic model derivatives (order 1). 
 Normalizing the dynamic model... 
 Finding the optimal block decomposition of the dynamic model... 
-2 block(s) found: 
-  1 recursive block(s) and 1 simultaneous block(s). 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
   the largest simultaneous block has 7 equation(s) 
                                  and 7 feedback variable(s). 
 Preprocessing completed. 
@@ -30,6 +30,7 @@ Equation number 5: Oferta de trabajo             :       0.000000
 Equation number 6: Ecuación de Euler             :       0.000000
 Equation number 7: Productividad                 :       0.000000
 Equation number 8: Demanda agregada              :       0.000000
+Equation number 9: Producción relativa al SS     :       0.000000
 
 
 
@@ -45,13 +46,14 @@ The rank condition is verified.
 
 STEADY-STATE RESULTS:
 
-A   		 1
-Y   		 1.614
-C   		 1.27014
-I   		 0.343851
-W   		 1.30282
-L   		 0.867197
-R_K 		 0.0704082
-K   		 6.87703
+A     		 1
+Y     		 1.614
+Y_rel 		 1
+C     		 1.27014
+I     		 0.343851
+W     		 1.30282
+L     		 0.867197
+R_K   		 0.0704082
+K     		 6.87703
 MODEL_DIAGNOSTICS:  No obvious problems with this mod-file were detected.
 Total computing time : 0h00m00s

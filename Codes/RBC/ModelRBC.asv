@@ -5,21 +5,23 @@
 % Paso 1: Definición de variables endógenas
 %----------------------------------------------------------------
 var 
-    W       $W$     (long_name = 'Salario') 
-    R_K     $R^{K}$ (long_name = 'Renta del capital') 
-    L       $L$     (long_name = 'Trabajo') 
-    K       $K$     (long_name = 'Capital') 
-    Y       $Y$     (long_name = 'Production') 
-    I       $I$     (long_name = 'Inversión') 
-    C       $C$     (long_name = 'Consumo') 
     A       $A$     (long_name = 'Productividad') 
+    Y       $Y$     (long_name = 'Producción') 
+    C       $C$     (long_name = 'Consumo') 
+    I       $I$     (long_name = 'Inversión')     
+    W       $W$     (long_name = 'Salario') 
+    L       $L$     (long_name = 'Trabajo') 
+    R_K     $R^{K}$ (long_name = 'Renta del capital') 
+    K       $K$     (long_name = 'Capital') 
+    Y_rel   $Y^{}$  (long_name = 'Produc. Rel. al SS') 
+    
 ;
 
 %----------------------------------------------------------------
 % Paso 2: Definición de variables exógenas
 %----------------------------------------------------------------
 varexo 
-    eps_A   $\epsilon^{A}$ (long_name = 'Choque de productivity') 
+    eps_A   $\epsilon^{A}$ (long_name = 'Choque de productividad') 
 ;
 
 %----------------------------------------------------------------
@@ -29,7 +31,7 @@ parameters
     sigma   $\sigma$    (long_name = 'Inverse of intertemporal subs elasticity')
     bbeta   $\beta$     (long_name = 'Factor de descuento')
     delta   $\delta$    (long_name = 'Depreciación del capital') 
-    aalpha  $\alpha$    (long_name = 'Participación del capital en la producción') 
+    aalpha  $\alpha$    (long_name = 'Part. del capital en la producción') 
     psi_l   $\phi^{L}$  (long_name = 'psi L') 
     pphi_K  $\phi^{K}$  (long_name = 'Costo de ajuste del capital') 
     eta     $\eta$      (long_name = 'Elasticidad de Frish') 
@@ -47,7 +49,7 @@ parameters
     psi_l  = 1;
     pphi_K = 0;
     eta    = 1.5;
-    rho    = 0.75;
+    rho    = 0;%ParamsInDynare;% 0.75; % ParamsInDynare;% 
     Ass    = 1;
 
 %----------------------------------------------------------------
@@ -70,13 +72,16 @@ model;
     psi_l*L^eta*C^sigma = W;
 
 [name = 'Ecuación de Euler']
-    C^(-sigma) = bbeta*C(+1)^(-sigma)*(1 - delta + R_K + pphi_K*(K - K(-1)));
+    (C(+1)/C)^(sigma) = bbeta*(R_K + (1 - delta) + pphi_K*(K - K(-1)));
 
 [name = 'Productividad']
     A = A(-1)^rho*Ass^(1-rho)*(1+eps_A);
 
 [name = 'Demanda agregada']
      Y = C + I;
+
+
+Y_rel = Y/steady_state(Y);     
 end;
 %----------------------------------------------------------------
 % Paso 5. Opciones de Dynare
@@ -89,11 +94,16 @@ end;
 % Paso 6. Productos de Dynare
 %----------------------------------------------------------------
 shocks;
-    var eps_A = 0.01;
+    var eps_A ; stderr 0.05342;
 end;
 
 % Simulación estocástica
-    stoch_simul(order=1,irf=40) ;
+    % stoch_simul(order=1,irf=40) ;
+
+    % Descomentar para el ejercicio 2 y 3
+    % stoch_simul(order=1,irf=20, nograph, noprint) ; 
+    stoch_simul(order=1,irf=20, noprint) ; 
+   
 
 % Escritura del modelo en LaTeX
     write_latex_parameter_table;

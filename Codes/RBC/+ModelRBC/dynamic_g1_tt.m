@@ -22,6 +22,6 @@ assert(length(T) >= 7);
 
 T = ModelRBC.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 
-T(7) = getPowerDeriv(y(11)/y(5),params(1),1);
+T(7) = getPowerDeriv(y(12)/y(6),params(1),1);
 
 end
