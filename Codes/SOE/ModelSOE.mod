@@ -1,23 +1,50 @@
-%%%  SOE Code
-%----------------------------------------------------------------
-% define variables 
-%----------------------------------------------------------------
+%% Modelo RBC / Economía abierta
+%% Autor: Óscar Ávila - Fredy A. Castañeda - Juan A. Rincón
 
-var K L B_star R_star I Y C A T NX
+
+% Variables endógenas
+var 
+    A           $A$             (long_name = 'Productividad')
+    B_star      $B^{\star}$     (long_name = 'Deuda')
+    R_star      $i^{\star}$     (long_name = 'Tasa de interés externa')
+    I           $I$             (long_name = 'Inversión')
+    Y           $Y$             (long_name = 'Producción')
+    C           $C$             (long_name = 'Consumo')
+    L           $L$             (long_name = 'Trabajo')
+    W           $W$             (long_name = 'Salario')
+    R_K         $R^{K}$         (long_name = 'Renta del capital')
+    T           $\tau$          (long_name = 'Transferencias')
+    NX          $NX$            (long_name = 'Balanza comercial')
+    K           $K$             (long_name = 'Capital')
+    
 ;
 
+% Variables exógenas
 varexo 
-    eps_A
-    eps_T
+    eps_A       $\epsilon^{A}$  (long_name = 'Choque de productividad')
+    eps_T       $\epsilon^{T}$  (long_name = 'Choque de T')
 ;
 
 %----------------------------------------------------------------
 % define parameters
 %----------------------------------------------------------------
 
-parameters  sigma beta delta alpha psi_l eta rho_a A_ss B_ss T_ss rho_tau phi_b
-            R_star_ss Y_ss phi_k     
-      
+parameters  
+    ssigma      $\sigma$        (long_name = 'sigma')
+    bbeta       $\beta$         (long_name = 'Factor de descuento')
+    ddelta      $\delta$        (long_name = 'Depreciación del capital')
+    aalpha      $\alpha$        (long_name = 'Parcipación del capital prod.')
+    psi_l       $\psi^L$        (long_name = 'psi')
+    eta         $\eta$          (long_name = 'eta')
+    rho_a       $\rho_{A}$      (long_name = 'Persistencia de la productividad')
+    phi_k       $\phi^{K}$      (long_name = 'Costo de ajuste del capital')
+    rho_tau     $\rho_{\tau}$   (long_name = 'Persistencia de T')
+    phi_b       $\phi_{B}$      (long_name = 'Elasticidad de la deuda a la tasa')
+    Y_ss        $Y$             (long_name = 'Y SS')
+    A_ss        $A$             (long_name = 'Productividad de est. estacionario')
+    B_ss        $B$             (long_name = 'Deuda de est. estacionario')
+    T_ss        $T$             (long_name = 'T SS')
+    R_star_ss   $i^{\star}$     (long_name = 'Tasa de interés de est. estacionario')
 ;
 
 
@@ -25,70 +52,76 @@ parameters  sigma beta delta alpha psi_l eta rho_a A_ss B_ss T_ss rho_tau phi_b
 % set parameter values 
 %----------------------------------------------------------------
 
-load Params.mat;
-load SSvar.mat;
+ssigma  = 2;
+bbeta   = 0.98;
+ddelta  = 0.1;
+aalpha  = 0.3;
+psi_l   = 1;
+eta     = 5;
+phi_k   = 0.1;
 
-sigma = Params(1);
-beta = Params(2);
-delta = Params(3);
-alpha = Params(4);
-psi_l = Params(5);
-eta = Params(6);
-rho_a = Params(7);
-A_ss = Params(8);
-B_ss = Params(9);
-T_ss = Params(10);
-rho_tau = Params(11);
-phi_b = Params(12);
-R_star_ss = Params(13);
-Y_ss = Params(14);
-phi_k = 0.01;
+A_ss    = 1;
+B_ss    = -0.25;% Params(9);
+T_ss    = 0;% Params(10);
+R_star_ss = 1/bbeta - 1;
+Y_ss    = 1;% Params(14);
+
+rho_a   = 0.75;
+rho_tau = 0.75;
+phi_b   = -0.05;
 
 %----------------------------------------------------------------
 % enter model equations
 %----------------------------------------------------------------
 model;
+[name = 'Ley de acumuluación del capital']
+    I = K-(1-ddelta)*K(-1) + phi_k/2*(K-K(-1))^2;
 
-R_star = R_star_ss*exp(phi_b*(B_star-B_ss));
+[name = 'Oferta de trabajo']
+    psi_l*L^eta = C^(-ssigma)*W;
 
-C^(-sigma) = beta*C(+1)^(-sigma)*(1+R_star(+1));
+[name = 'Ecuación de Euler']
+    C^(-ssigma)*(1+phi_k*(K-K(-1))) = bbeta*C(+1)^(-ssigma)*(1-ddelta + R_K(+1) - phi_k*(K(+1)-K));
 
-I = K-(1-delta)*K(-1) + phi_k/2*(K-K(-1))^2;
+[name = 'Demanda de bonos']
+    (C(+1)/C)^(ssigma) = bbeta*(1+R_star(+1));
 
-Y = A*K(-1)^alpha*L^(1-alpha);
+[name = 'Tasa de interés de la deuda']
+    R_star = R_star_ss*exp(phi_b*(B_star-B_ss));
 
-C + I + B_star = Y + (1+R_star)*B_star(-1)+T;
+[name = 'Función de producción']
+    Y = A*K(-1)^aalpha*L^(1-aalpha);
 
-psi_l*L^eta = C^(-sigma)*(1-alpha)*Y/L;
+[name = 'Demanda de capital']
+    R_K = aalpha*(Y/K(-1));
 
-C^(-sigma)*(1+phi_k*(K-K(-1))) = beta*C(+1)^(-sigma)*(1-delta + alpha*Y(+1)/K - phi_k*(K(+1)-K));
+[name = 'Demanda de trabajo']
+    W = (1-aalpha)*Y/L;
 
-A = A(-1)*rho_a+A_ss*(1-rho_a)+eps_A;
+[name = 'Demanda agregada']
+    C + I + B_star = Y + (1+R_star)*B_star(-1)+T;
 
-T = T(-1)*rho_tau+T_ss*(1-rho_tau)+eps_T;
+[name = 'Productividad']
+    A = A(-1)*rho_a+A_ss*(1-rho_a)+eps_A;
 
-NX = Y - C -I;
+[name = 'Transferencias']
+    T = T(-1)*rho_tau+T_ss*(1-rho_tau)+eps_T;
 
-end;
-
-%----------------------------------------------------------------
-%  Initial values
-%---------------------------------------------------------------
-
-initval;
-
-K = SSvar(1);
-L = SSvar(2);
-B_star = SSvar(3);
-R_star = SSvar(4);
-I = SSvar(5);
-Y = SSvar(6);
-C = SSvar(7);
-A = SSvar(8);
-T = SSvar(9);
-NX = Y - C -I;
+[name = 'Exportaciones netas']
+    NX = Y - C - I;
 
 end;
+
+
+% Escritura del modelo en LaTeX
+    write_latex_parameter_table;
+    write_latex_definitions;
+    write_latex_original_model(write_equation_tags);
+    write_latex_static_model(write_equation_tags);
+    collect_latex_files;
+
+
+
 model_diagnostics;
 resid;
 check;
