@@ -4,13 +4,8 @@ if T_order >= 1
 end
 [T_order, T] = ModelSOE.sparse.dynamic_resid_tt(y, x, params, steady_state, T_order, T);
 T_order = 1;
-if size(T, 1) < 11
-    T = [T; NaN(11 - size(T, 1), 1)];
+if size(T, 1) < 5
+    T = [T; NaN(5 - size(T, 1), 1)];
 end
-T(6) = getPowerDeriv(y(17),(-params(1)),1);
-T(7) = (-y(29))/(y(17)*y(17));
-T(8) = getPowerDeriv(y(29)/y(17),params(1),1);
-T(9) = T(8)*1/y(17);
-T(10) = getPowerDeriv(y(20),1-params(4),1);
-T(11) = getPowerDeriv(y(12),params(4),1);
+T(5) = getPowerDeriv(y(30)/y(17),params(1),1);
 end

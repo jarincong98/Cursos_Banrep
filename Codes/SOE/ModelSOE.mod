@@ -1,20 +1,20 @@
 %% Modelo RBC / Economía abierta
 %% Autor: Óscar Ávila - Fredy A. Castañeda - Juan A. Rincón
 
-
 % Variables endógenas
 var 
     A           $A$             (long_name = 'Productividad')
-    B_star      $B^{\star}$     (long_name = 'Deuda')
-    R_star      $i^{\star}$     (long_name = 'Tasa de interés externa')
     Y           $Y$             (long_name = 'Producción')
+    Y_rel       $Y^{Rel}$       (long_name = 'Producción Rel. al SS') 
     C           $C$             (long_name = 'Consumo')
     I           $I$             (long_name = 'Inversión')
     NX          $NX$            (long_name = 'Balanza comercial')
+    B_star      $B^{\star}$     (long_name = 'Deuda')
+    R_star      $i^{\star}$     (long_name = 'Tasa de interés externa')
+    T           $\tau$          (long_name = 'Transferencias')
     L           $L$             (long_name = 'Trabajo')
     W           $W$             (long_name = 'Salario')
     R_K         $R^{K}$         (long_name = 'Renta del capital')
-    T           $\tau$          (long_name = 'Transferencias')
     K           $K$             (long_name = 'Capital')
     
 ;
@@ -109,17 +109,11 @@ model;
 [name = 'Exportaciones netas']
     NX = Y - C - I;
 
+[name = 'Producción relativa al SS']
+    Y_rel = Y/steady_state(Y);
+
 end;
 
-
-% Escritura del modelo en LaTeX
-    write_latex_parameter_table;
-    write_latex_definitions;
-    write_latex_original_model(write_equation_tags);
-    write_latex_static_model(write_equation_tags);
-    collect_latex_files;
-
-%
 model_diagnostics;
 resid;
 check;
@@ -127,10 +121,21 @@ steady;
 
 
 shocks;
-    var eps_T = 0.01;
+    var eps_A; stderr 1;
 end;
 
 %----------------------------------------------------------------
 %  Simul-IRF
 %---------------------------------------------------------------
-stoch_simul(irf=100);
+% Simulación estocástica
+    % stoch_simul(order=1,irf=40) ;
+
+% Descomentar para el ejercicio 2 y 3
+    stoch_simul(order=1,irf=20, nograph, noprint) ; 
+   
+
+% Escritura del modelo en LaTeX
+    write_latex_parameter_table;
+    write_latex_definitions;
+    write_latex_original_model(write_equation_tags);
+    collect_latex_files;

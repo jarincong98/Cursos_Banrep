@@ -1,8 +1,7 @@
 %%                      Principios de MATLAB 
 %                  útiles y aplicables para Dynare
 
-%  Autor: Fredy Alexander Castañeda
-%  Banco de la República 
+%  Autor: Fredy Alexander Castañeda / Óscar Ávila / Juan Andrés Rincón
 %   .......................................................................
 %%  >> 0. Limpieza 
     clear;      % Limpia el workspace
@@ -10,7 +9,7 @@
     clc;        % Limpia el comand window
 %   .......................................................................
 %%  >> 1. Operaciones básicas
-    a = 1;     %   Creación de una variable e impresión en el comand window
+    a = 1;    %   Creación de una variable e impresión en el comand window
     b = 1+1;  %   Suma
     c = a+1;
 
@@ -21,16 +20,20 @@
 
     h = f^(1/2); % Exponente
     h = sqrt(g); % Raíz cuadrada (Función de MATLAB)
-Name= {'Fredo'};
-%   .......................................................................
 
+    Name= {'Fredo'};
+% return;
+%   .......................................................................
 %%  >> 2. Funciones
-    RootA = 4;
-    RootB = 2;
-    RootC = 1;
+    RootA = 1;
+    RootB = 3;
+    RootC = 2;
     [Root1, Root2] = W1roots(RootA,RootB,RootC);
+    disp('Resultados');
+    disp(['     Raíz 1: ' num2str(Root1)]);
+    disp(['     Raíz 2: ' num2str(Root2)]);
+% return;
 %   .......................................................................
-
 %%  >> 3. Matrices
 clear;                   % Limpia el workspace
     a = [1, 2, 3];
@@ -42,7 +45,7 @@ clear;                   % Limpia el workspace
 
 clc;                     % Limpia el comand window
     c = a*b;             % Multiplicación de matrices
-    d = a*b;       
+    d = a*c;       
     e = a';              % Transponer 
         % f = a'*b;   % ERROR!!!
         % f = a*b';   % ERROR!!!
@@ -50,8 +53,8 @@ clc;                     % Limpia el comand window
     g = a.*b;   % Solución
 
     h = 10:-1:1;
+% return;
 %   .......................................................................
-
 %%  >> 4. Procesos iterativos
 clear;                   % Limpia el workspace
 clc;                     % Limpia el comand window
@@ -69,7 +72,7 @@ clc;                     % Limpia el comand window
 %   Sea una estructura: x = rho_x * x(-1) + (1 - rho_x) * x_ss + eps_x
 %   Se analizan diferentes persistencias
     rhos_x   = 0.1: 0.2 :1;
-    descripcion = ['Choque de ' num2str(eps_x)];
+    descripcion = [num2str(eps_x)];
 
     x_case = W1arSensi(x_ss, rhos_x, eps_x,  periods);
     
@@ -78,8 +81,8 @@ clc;                     % Limpia el comand window
     for i = 1:rho_sensi
         x_struct.(['x_Case_' num2str(i)])   = x_case(:,i);
     end
+% return;
 %   .......................................................................
-
 %%  >> 5. Gráficas
 %%  >>> 5.1 Gráfica 1: Gráfica simple
 figure('Name', 'Dinámica de x', 'Color', 'white');
@@ -117,7 +120,7 @@ figure('Name', 'Dinámica de x', 'Color', 'white');
                     'LineStyle','-.');
         title(CaseLengend{i})
     end
-
+% return;
 %   .......................................................................
 %%  >> 6. Ejercicios "avanzados" aplicados
 clear; close all; clc;

@@ -3,11 +3,10 @@
 clc; clear; close all;
 
 %% == Ejecute un ejericio con la opción true
-Ej1 = false;
-Ej2 = true;
+Ej1 = true;
+Ej2 = false;
 
 RunModel = true;
-
 %% == Ejercicio 1: Impulso respuesta
 if Ej1
     close all; clc; 
@@ -16,7 +15,7 @@ if Ej1
     disp(' ');
 
     if RunModel
-        dynare ModelRBC.mod;
+        dynare ModelSOE.mod;
         save('Results_Ej1', 'oo_','M_');
     else
         load('Results_Ej1');
@@ -30,13 +29,13 @@ if Ej1
     irfs = oo_.irfs;
     
     Row = 3;
-    Col = 3;
+    Col = 5;
     Colors = parula(length(endo_names));
     
     figure('Color','White')
         for aa = 1:length(endo_names)
             subplot(Row,Col,aa)
-            variable = [endo_names{aa} '_' exo_names{1:end}];
+            variable = [endo_names{aa} '_' exo_names{1}];
             plot(irfs.(variable), ...
                 'Linewidth', 2, ... 
                 'Color', Colors(aa,1:end)); 
@@ -45,12 +44,13 @@ if Ej1
             yline(0);
             title(endo_names_long{aa});
         end
-    sgtitle(Title_exo_names{1:end});
+    sgtitle(Title_exo_names{1});
 
     figure('Color','White', 'Name', 'Choque de productividad II')
-    Colors = parula(5);
+    Colors = lines(length(endo_names));
+
     for aa = 1:length(endo_names)-4
-            variable = [endo_names{aa} '_' exo_names{1:end}];
+            variable = [endo_names{aa} '_' exo_names{1}];
         subplot(2,2,[1,3])
             plot(irfs.(variable), ...
                 'Linewidth', 2, ... 
@@ -63,7 +63,11 @@ if Ej1
         endo_names_long{2}, ...
         endo_names_long{3}, ...
         endo_names_long{4}, ...
-        endo_names_long{5} ...
+        endo_names_long{5}, ...
+        endo_names_long{6}, ...
+        endo_names_long{7}, ...
+        endo_names_long{8}, ...
+        endo_names_long{9} ...
         );
 
         subplot(2,2,2)
@@ -82,7 +86,7 @@ if Ej1
              xlabel('Periodos'); 
             title('Mercado de capital');
     
-    sgtitle(Title_exo_names{1:end});    
+    sgtitle(Title_exo_names{1});    
 end
 
 %% == Ejercicio 2: Análisis de sensibilidad
@@ -101,7 +105,7 @@ if Ej2
     if RunModel
         for aa = 1:length(Params)
             ParamsInDynare = Params(aa);
-            dynare ModelRBC.mod;
+            dynare ModelSOE.mod;
             eval(['Ej2_Results.oo' num2str(aa) '_ = oo_ ;']);
             eval(['Ej2_Results.M'  num2str(aa) '_ = M_ ;']);
 

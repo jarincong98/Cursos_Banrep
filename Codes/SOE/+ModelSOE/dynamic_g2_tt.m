@@ -18,13 +18,9 @@ function T = dynamic_g2_tt(T, y, x, params, steady_state, it_)
 %   T           [#temp variables by 1]       double  vector of temporary terms
 %
 
-assert(length(T) >= 15);
+assert(length(T) >= 5);
 
 T = ModelSOE.dynamic_g1_tt(T, y, x, params, steady_state, it_);
 
-T(12) = getPowerDeriv(y(18)/y(9),params(1),2);
-T(13) = T(8)*(-((-y(18))*(y(9)+y(9))))/(y(9)*y(9)*y(9)*y(9))+T(7)*T(7)*T(12);
-T(14) = T(8)*(-1)/(y(9)*y(9))+T(7)*1/y(9)*T(12);
-T(15) = 1/y(9)*1/y(9)*T(12);
 
 end
