@@ -12,7 +12,7 @@ var
     C           $C$             (long_name = 'Consumo')
     L           $L$             (long_name = 'Trabajo')
     W           $W$             (long_name = 'Salario')
-    R_K         $R$             (long_name = 'Renta del capital')
+    R_K         $R^{K}$         (long_name = 'Renta del capital')
     T           $\tau$          (long_name = 'Transferencias')
     NX          $NX$            (long_name = 'Balanza comercial')
     K           $K$             (long_name = 'Capital')
@@ -61,10 +61,10 @@ eta     = 5;
 phi_k   = 0.1;
 
 A_ss    = 1;
-B_ss    = -0.25;% Params(9);
-T_ss    = 0;% Params(10);
-R_star_ss = 0.1;% Params(13);
-Y_ss    = 1;% Params(14);
+B_ss    = -0.; 
+T_ss    = 0; 
+R_star_ss = 1/bbeta - 1;
+Y_ss    = 1; 
 
 rho_a   = 0.75;
 rho_tau = 0.75;
@@ -93,7 +93,7 @@ model;
     Y = A*K(-1)^aalpha*L^(1-aalpha);
 
 [name = 'Demanda de capital']
-    R_K = aalpha*Y/K(-1);
+    R_K = aalpha*(Y/K(-1));
 
 [name = 'Demanda de trabajo']
     W = (1-aalpha)*Y/L;
@@ -117,36 +117,18 @@ end;
     write_latex_parameter_table;
     write_latex_definitions;
     write_latex_original_model(write_equation_tags);
+    write_latex_static_model(write_equation_tags);
     collect_latex_files;
 
-return;
-%----------------------------------------------------------------
-%  Initial values
-%---------------------------------------------------------------
 
-initval;
 
-K = SSvar(1);
-L = SSvar(2);
-B_star = SSvar(3);
-R_star = SSvar(4);
-I = SSvar(5);
-Y = SSvar(6);
-C = SSvar(7);
-A = SSvar(8);
-T = SSvar(9);
-NX = Y - C -I;
-
-end;
 model_diagnostics;
 resid;
 check;
 steady;
-
+return;
 shocks;
-var eps_A = 0.01;
-%var eps_T = 0.01;
-
+    var eps_A = 0.01;
 end;
 
 %----------------------------------------------------------------

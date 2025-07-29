@@ -8,7 +8,7 @@ if size(T, 1) < 5
 end
 T(1) = params(8)/2;
 T(2) = y(18)^(-params(1));
-T(3) = params(2)*y(30)^(-params(1));
+T(3) = (y(30)/y(18))^params(1);
 T(4) = y(12)^params(4);
 T(5) = y(19)^(1-params(4));
 end

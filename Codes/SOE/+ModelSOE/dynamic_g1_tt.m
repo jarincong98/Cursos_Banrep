@@ -25,7 +25,7 @@ T = ModelSOE.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 T(6) = getPowerDeriv(y(10),(-params(1)),1);
 T(7) = (-y(18))/(y(10)*y(10));
 T(8) = getPowerDeriv(y(18)/y(10),params(1),1);
-T(9) = params(2)*getPowerDeriv(y(18),(-params(1)),1);
+T(9) = T(8)*1/y(10);
 T(10) = getPowerDeriv(y(11),1-params(4),1);
 T(11) = getPowerDeriv(y(4),params(4),1);
 

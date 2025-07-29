@@ -22,38 +22,57 @@ end
 check = 0;
 
 % Convergencia de procesos autoregresivos
-A   = A_ss;
-Y   = Y_ss;
-B   = B_ss;
+A      = A_ss;
+B_star = B_ss;
+R_star = R_star_ss;
+Y= Y_ss;
 
+% ==
+% Exportaciones netas
+    % % Sabemos que...
+    % %   1) NX = -(T + R_star*B_star) ;  
+    % % y que ...
+    % %   2) NX  = Y - C - I ;
+    % % entonces ...
+    % T = T_ss;
+    % % B_star = - (Y - C - I + T)/R_star;
+    % % B_ss = B_star  ;
+    % B_star = B_ss;
+    % NX = -(T + R_star*B_star) ;  
+
+% Transferencias
+    % % T   = NX - R_star*B_star;
+    % % T_ss = T;
+% ==
 
 % Precios
-P   = 1;
-MC  = P;
+    P   = 1;
+% Renta del capital
+    R_K = (1/bbeta - 1 + ddelta)*P; 
+% Salarios
+    W   = (P*A*(1-aalpha)^(1-aalpha)*(aalpha/R_K)^aalpha)^(1/(1-aalpha)); % Using the MC to W
+% Producción 
+    % Y   = NX / (1 - (ddelta*aalpha/R_K) - 1^(-eta/ssigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) )^(1/ssigma) );
+    Y   = ( (( (1/psi_l) * (W/(1-aalpha))^eta * (W/P)  )^(1/ssigma))/ (1-(ddelta*aalpha/R_K) ) )^(ssigma/(ssigma+eta));
+% Consumo
+    % C   = (1/Y)^(eta/ssigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) ) ^(1/ssigma);
+    
+% Inversión
+    I   = (ddelta*aalpha/R_K*Y);
+% Exportaciones netas
+    T  = T_ss;
+    NX = -R_star*B_star + T;
+% Consumo
+    C  = Y - I + R_star*B_star + T;
+% Trabajo
+    L   = (1-aalpha)*Y/W;
+    
+% Capital
+    K   = (aalpha/R_K)*Y;
+% Relativo a PIB
+    Y_rel = 1;
 
-
-R_K    = (1/bbeta - 1 + ddelta)*P;
-R_star = R_star_ss;
-
-W   = (P*A*(1-aalpha)^(1-aalpha)*(aalpha/R_K)^aalpha)^(1/(1-aalpha)); % Using the MC to W
-
-Y   = ( ( (1/psi_l) * (W/(1-aalpha))^eta * (W/P)  )^(1/ssigma)  / (1-(ddelta*aalpha/R_K) ) )^(ssigma/(ssigma+eta));
-L   = (1-aalpha)*Y/W;
-
-C   = (1/Y)^(eta/ssigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) ) ^(1/ssigma);
-
-I   = (ddelta*aalpha/R_K*Y);
-K   = (aalpha/R_K)*Y;
-
-
-T_ss = I + C - Y - R_star*B;
-
-T   = T_ss;
-NX = Y - C - I;
-
-B_star = B_ss;
-
-Y_rel = 1;
+    psi_l = C^(-ssigma)*W/(L^eta);
 
 % ----------------------------------------------------------------------- %
 %% Return steady state  

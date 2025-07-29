@@ -13,10 +13,9 @@ function T = static_g1_tt(T, y, x, params)
 %   T         [#temp variables by 1]  double   vector of temporary terms
 %
 
-assert(length(T) >= 4);
+assert(length(T) >= 3);
 
 T = ModelSOE.static_resid_tt(T, y, x, params);
 
-T(4) = getPowerDeriv(y(6),(-params(1)),1);
 
 end

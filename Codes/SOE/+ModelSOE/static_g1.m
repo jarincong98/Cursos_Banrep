@@ -21,11 +21,10 @@ end
 g1 = zeros(12, 12);
 g1(1,4)=1;
 g1(1,12)=(-(1-(1-params(3))));
-g1(2,6)=(-(y(8)*T(4)));
+g1(2,6)=(-(y(8)*getPowerDeriv(y(6),(-params(1)),1)));
 g1(2,7)=params(5)*getPowerDeriv(y(7),params(6),1);
 g1(2,8)=(-T(1));
-g1(3,6)=T(4)-(1-params(3)+y(9))*params(2)*T(4);
-g1(3,9)=(-(T(1)*params(2)));
+g1(3,9)=(-params(2));
 g1(4,3)=(-params(2));
 g1(5,2)=(-(params(15)*params(10)*exp(params(10)*(y(2)-params(13)))));
 g1(5,3)=1;

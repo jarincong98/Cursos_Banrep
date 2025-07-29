@@ -25,7 +25,7 @@ check = 0;
 A      = A_ss;
 B_star = B_ss;
 R_star = R_star_ss;
-Y= Y_ss;
+
 
 % ==
 % Exportaciones netas
@@ -55,14 +55,15 @@ Y= Y_ss;
     % Y   = NX / (1 - (ddelta*aalpha/R_K) - 1^(-eta/ssigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) )^(1/ssigma) );
     Y   = ( (( (1/psi_l) * (W/(1-aalpha))^eta * (W/P)  )^(1/ssigma))/ (1-(ddelta*aalpha/R_K) ) )^(ssigma/(ssigma+eta));
 % Consumo
-    % C   = (1/Y)^(eta/ssigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) ) ^(1/ssigma);
+    C   = (1/Y)^(eta/ssigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) ) ^(1/ssigma);
 % Inversión
     I   = (ddelta*aalpha/R_K*Y);
 % Exportaciones netas
-    T  = T_ss;
-    NX = -R_star*B_star + T;
-% Consumo
-    C  = Y - I + R_star*B_star + T;
+    NX = Y - C - I;   
+% Transferencias
+    T = NX - R_star*B_star;
+    T_ss = T;
+
 % Trabajo
     L   = (1-aalpha)*Y/W;
 % Capital

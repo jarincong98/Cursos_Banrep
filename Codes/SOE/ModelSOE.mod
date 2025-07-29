@@ -61,10 +61,10 @@ eta     = 5;
 phi_k   = 0.1;
 
 A_ss    = 1;
-B_ss    = -0.25;% Params(9);
-T_ss    = 0;% Params(10);
+B_ss    = 0.25; 
+T_ss    = 0; 
 R_star_ss = 1/bbeta - 1;
-Y_ss    = 1;% Params(14);
+Y_ss    = 1; 
 
 rho_a   = 0.75;
 rho_tau = 0.75;
@@ -74,19 +74,19 @@ phi_b   = -0.05;
 % enter model equations
 %----------------------------------------------------------------
 model;
-[name = 'Ley de acumuluación del capital']
+[name = 'Ley acumu. del capital']
     I = K-(1-ddelta)*K(-1) + phi_k/2*(K-K(-1))^2;
 
 [name = 'Oferta de trabajo']
     psi_l*L^eta = C^(-ssigma)*W;
 
 [name = 'Ecuación de Euler']
-    C^(-ssigma)*(1+phi_k*(K-K(-1))) = bbeta*C(+1)^(-ssigma)*(1-ddelta + R_K(+1) - phi_k*(K(+1)-K));
+    (C(+1)/C)^(ssigma)*(1+phi_k*(K-K(-1))) = bbeta*(1-ddelta + R_K(+1) - phi_k*(K(+1)-K));
 
 [name = 'Demanda de bonos']
     (C(+1)/C)^(ssigma) = bbeta*(1+R_star(+1));
 
-[name = 'Tasa de interés de la deuda']
+[name = 'Tasa de interés deuda']
     R_star = R_star_ss*exp(phi_b*(B_star-B_ss));
 
 [name = 'Función de producción']
@@ -120,17 +120,15 @@ end;
     write_latex_static_model(write_equation_tags);
     collect_latex_files;
 
-
-
+%
 model_diagnostics;
 resid;
 check;
 steady;
 
-shocks;
-var eps_A = 0.01;
-%var eps_T = 0.01;
 
+shocks;
+    var eps_T = 0.01;
 end;
 
 %----------------------------------------------------------------

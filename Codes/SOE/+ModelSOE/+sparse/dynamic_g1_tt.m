@@ -10,7 +10,7 @@ end
 T(6) = getPowerDeriv(y(18),(-params(1)),1);
 T(7) = (-y(30))/(y(18)*y(18));
 T(8) = getPowerDeriv(y(30)/y(18),params(1),1);
-T(9) = params(2)*getPowerDeriv(y(30),(-params(1)),1);
+T(9) = T(8)*1/y(18);
 T(10) = getPowerDeriv(y(19),1-params(4),1);
 T(11) = getPowerDeriv(y(12),params(4),1);
 end
