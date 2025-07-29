@@ -23,17 +23,17 @@ if T_flag
     T = ModelSOE.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 end
 residual = zeros(12, 1);
-    residual(1) = (y(8)) - (y(16)-(1-params(3))*y(4)+T(1)*(y(16)-y(4))^2);
-    residual(2) = (params(5)*y(11)^params(6)) - (T(2)*y(12));
+    residual(1) = (y(10)) - (y(16)-(1-params(3))*y(4)+T(1)*(y(16)-y(4))^2);
+    residual(2) = (params(5)*y(12)^params(6)) - (T(2)*y(13));
     residual(3) = (T(3)*(1+params(8)*(y(16)-y(4)))) - (params(2)*(1-params(3)+y(19)-params(8)*(y(20)-y(16))));
     residual(4) = (T(3)) - (params(2)*(1+y(17)));
-    residual(5) = (y(7)) - (params(15)*exp(params(10)*(y(6)-params(13))));
-    residual(6) = (y(9)) - (y(5)*T(4)*T(5));
-    residual(7) = (y(13)) - (params(4)*y(9)/y(4));
-    residual(8) = (y(12)) - (y(9)*(1-params(4))/y(11));
-    residual(9) = (y(6)+y(8)+y(10)) - (y(9)+(1+y(7))*y(2)+y(14));
-    residual(10) = (y(5)) - (y(1)*params(7)+params(12)*(1-params(7))+x(it_, 1));
-    residual(11) = (y(14)) - (y(3)*params(9)+params(14)*(1-params(9))+x(it_, 2));
-    residual(12) = (y(15)) - (y(9)-y(10)-y(8));
+    residual(5) = (y(7)) - (params(14)*exp(params(10)*(y(6)-params(12))));
+    residual(6) = (y(8)) - (y(5)*T(4)*T(5));
+    residual(7) = (y(14)) - (params(4)*y(8)/y(4));
+    residual(8) = (y(13)) - (y(8)*(1-params(4))/y(12));
+    residual(9) = (y(6)+y(10)+y(9)) - (y(8)+(1+y(7))*y(2)+y(15));
+    residual(10) = (y(5)) - (y(1)*params(7)+params(11)*(1-params(7))+x(it_, 1));
+    residual(11) = (y(15)) - (y(3)*params(9)+params(13)*(1-params(9))+x(it_, 2));
+    residual(12) = (y(11)) - (y(8)-y(9)-y(10));
 
 end

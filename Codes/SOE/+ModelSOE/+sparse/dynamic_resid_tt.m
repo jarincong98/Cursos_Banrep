@@ -7,8 +7,8 @@ if size(T, 1) < 5
     T = [T; NaN(5 - size(T, 1), 1)];
 end
 T(1) = params(8)/2;
-T(2) = y(18)^(-params(1));
-T(3) = (y(30)/y(18))^params(1);
+T(2) = y(17)^(-params(1));
+T(3) = (y(29)/y(17))^params(1);
 T(4) = y(12)^params(4);
-T(5) = y(19)^(1-params(4));
+T(5) = y(20)^(1-params(4));
 end

@@ -1,4 +1,4 @@
-function [ys,params,check] = ModelRBC_steadystate(ys,exo,M_,options_)
+function [ys,params,check] = ModelSOE_steadystate(ys,exo,M_,options_)
 %% Inputs:
 %   - ys        [vector] vector of initial values for the steady state of
 %                   the endogenous variables
@@ -25,7 +25,6 @@ check = 0;
 A      = A_ss;
 B_star = B_ss;
 R_star = R_star_ss;
-Y= Y_ss;
 
 % ==
 % Exportaciones netas
@@ -56,7 +55,6 @@ Y= Y_ss;
     Y   = ( (( (1/psi_l) * (W/(1-aalpha))^eta * (W/P)  )^(1/ssigma))/ (1-(ddelta*aalpha/R_K) ) )^(ssigma/(ssigma+eta));
 % Consumo
     % C   = (1/Y)^(eta/ssigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) ) ^(1/ssigma);
-    
 % Inversión
     I   = (ddelta*aalpha/R_K*Y);
 % Exportaciones netas
@@ -65,8 +63,7 @@ Y= Y_ss;
 % Consumo
     C  = Y - I + R_star*B_star + T;
 % Trabajo
-    L   = (1-aalpha)*Y/W;
-    
+    L   = (1-aalpha)*Y/W;   
 % Capital
     K   = (aalpha/R_K)*Y;
 % Relativo a PIB

@@ -7,14 +7,14 @@ var
     A           $A$             (long_name = 'Productividad')
     B_star      $B^{\star}$     (long_name = 'Deuda')
     R_star      $i^{\star}$     (long_name = 'Tasa de interés externa')
-    I           $I$             (long_name = 'Inversión')
     Y           $Y$             (long_name = 'Producción')
     C           $C$             (long_name = 'Consumo')
+    I           $I$             (long_name = 'Inversión')
+    NX          $NX$            (long_name = 'Balanza comercial')
     L           $L$             (long_name = 'Trabajo')
     W           $W$             (long_name = 'Salario')
     R_K         $R^{K}$         (long_name = 'Renta del capital')
     T           $\tau$          (long_name = 'Transferencias')
-    NX          $NX$            (long_name = 'Balanza comercial')
     K           $K$             (long_name = 'Capital')
     
 ;
@@ -40,7 +40,6 @@ parameters
     phi_k       $\phi^{K}$      (long_name = 'Costo de ajuste del capital')
     rho_tau     $\rho_{\tau}$   (long_name = 'Persistencia de T')
     phi_b       $\phi_{B}$      (long_name = 'Elasticidad de la deuda a la tasa')
-    Y_ss        $Y$             (long_name = 'Y SS')
     A_ss        $A$             (long_name = 'Productividad de est. estacionario')
     B_ss        $B$             (long_name = 'Deuda de est. estacionario')
     T_ss        $T$             (long_name = 'T SS')
@@ -61,10 +60,10 @@ eta     = 5;
 phi_k   = 0.1;
 
 A_ss    = 1;
-B_ss    = 0.25; 
+B_ss    = -0.25; 
 T_ss    = 0; 
 R_star_ss = 1/bbeta - 1;
-Y_ss    = 1; 
+
 
 rho_a   = 0.75;
 rho_tau = 0.75;
