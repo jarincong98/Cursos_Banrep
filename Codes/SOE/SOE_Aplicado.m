@@ -98,7 +98,7 @@ if Ej2
     %% == Inputs
     % == NO OLVIDE CAMBIAR EL NOMBRE EN DYNARE == %
         ParamsName = 'rho_a';   %'aalpha';       'pphi_K';  'delta';   
-        Params     = 0:0.5:0.9; %[0.3:0.1:0.75]; [0:0.1:1]; [0 0.05 1]; 
+        Params     = 0.75;0:0.5:0.9; %[0.3:0.1:0.75]; [0:0.1:1]; [0 0.05 1]; 
     % == NO OLVIDE CAMBIAR EL NOMBRE EN DYNARE == %
 
     %% == Code

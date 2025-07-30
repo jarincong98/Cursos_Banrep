@@ -53,11 +53,11 @@ parameters
 %% Practica de SS (Cambiar Y=1, 
 ssigma  = 2;
 bbeta   = 0.98;
-ddelta  = 0.1;
+ddelta  = 0.025;
 aalpha  = 0.3;
 psi_l   = 1;
 eta     = 5;
-phi_k   = 0.1;
+phi_k   = 0;
 
 A_ss    = 1;
 B_ss    = -0.25; 
@@ -67,7 +67,7 @@ R_star_ss = 1/bbeta - 1;
 
 rho_a   = ParamsInDynare;% 0.75;
 rho_tau = 0.75;
-phi_b   = -0.05;
+phi_b   = -0.004;
 
 %----------------------------------------------------------------
 % enter model equations
@@ -98,7 +98,7 @@ model;
     W = (1-aalpha)*Y/L;
 
 [name = 'Demanda agregada']
-    C + I + B_star = Y + (1+R_star)*B_star(-1)+T;
+    C + I + B_star = Y + (1+R_star)*B_star(-1);
 
 [name = 'Productividad']
     A = A(-1)*rho_a+A_ss*(1-rho_a)+eps_A;
@@ -107,7 +107,7 @@ model;
     T = T(-1)*rho_tau+T_ss*(1-rho_tau)+eps_T;
 
 [name = 'Exportaciones netas']
-    NX = Y - C - I ;
+    NX = Y - C - I + (phi_k/2)*(K - K(-1))^2;
 
 [name = 'Producción relativa al SS']
     Y_rel = Y/steady_state(Y);
@@ -118,7 +118,6 @@ model_diagnostics;
 resid;
 check;
 steady;
-
 
 shocks;
     var eps_A; stderr 1;
