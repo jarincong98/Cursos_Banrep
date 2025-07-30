@@ -79,7 +79,7 @@ model;
     A = A(-1)^rho*Ass^(1-rho)*(1+eps_A);
 
 [name = 'Demanda agregada']
-     Y = C + I;
+     Y = C + I + (pphi_K/2)*(K - K(-1))^2;
 
 [name = 'Producción relativa al SS']
     Y_rel = Y/steady_state(Y);     

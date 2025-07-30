@@ -25,12 +25,12 @@ end
 residual = zeros(9, 1);
     residual(1) = (y(4)) - (y(3)*T(1)*T(2));
     residual(2) = (y(10)) - (params(4)*y(4)/y(2));
-    residual(3) = (y(11)) - (y(2)*(1-params(3))+y(7)+params(6)/2*(y(11)-y(2))^2);
+    residual(3) = (y(11)) - (y(2)*(1-params(3))+y(7)+T(3));
     residual(4) = (y(8)) - ((1-params(4))*y(4)/y(9));
-    residual(5) = (T(3)*T(4)) - (y(8));
+    residual(5) = (T(4)*T(5)) - (y(8));
     residual(6) = ((y(12)/y(6))^params(1)) - (params(2)*(y(10)+1-params(3)+params(6)*(y(11)-y(2))));
-    residual(7) = (y(3)) - (T(6)*(1+x(it_, 1)));
-    residual(8) = (y(4)) - (y(7)+y(6));
+    residual(7) = (y(3)) - (T(7)*(1+x(it_, 1)));
+    residual(8) = (y(4)) - (T(3)+y(7)+y(6));
     residual(9) = (y(5)) - (y(4)/(steady_state(2)));
 
 end

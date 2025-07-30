@@ -86,7 +86,7 @@ if Ej1
              xlabel('Periodos'); 
             title('Mercado de capital');
     
-    sgtitle(Title_exo_names{1});    
+    sgtitle(Title_exo_names{1});
 end
 
 %% == Ejercicio 2: Análisis de sensibilidad
