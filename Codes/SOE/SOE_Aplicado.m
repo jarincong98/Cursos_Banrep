@@ -3,8 +3,8 @@
 clc; clear; close all;
 
 %% == Ejecute un ejericio con la opción true
-Ej1 = true;
-Ej2 = false;
+Ej1 = false;
+Ej2 = true;
 
 RunModel = true;
 %% == Ejercicio 1: Impulso respuesta
@@ -97,7 +97,7 @@ if Ej2
 
     %% == Inputs
     % == NO OLVIDE CAMBIAR EL NOMBRE EN DYNARE == %
-        ParamsName = 'rho';   %'aalpha';       'pphi_K';  'delta';   
+        ParamsName = 'rho_a';   %'aalpha';       'pphi_K';  'delta';   
         Params     = 0:0.5:0.9; %[0.3:0.1:0.75]; [0:0.1:1]; [0 0.05 1]; 
     % == NO OLVIDE CAMBIAR EL NOMBRE EN DYNARE == %
 
@@ -116,7 +116,7 @@ if Ej2
     end
 
     exo_names       = Ej2_Results.M1_.exo_names;
-    Title_exo_names = Ej2_Results.M1_.exo_names_long;
+    Title_exo_names = Ej2_Results.M1_.exo_names_long{1};
     endo_names      = Ej2_Results.M1_.endo_names;
     endo_names_long = Ej2_Results.M1_.endo_names_long ;
     param_names_tex = Ej2_Results.M1_.param_names_tex ;
@@ -125,13 +125,13 @@ if Ej2
     ParamsPosition = find(strcmp(ParamsVector, ParamsName));
 
     Row = 3;
-    Col = 3;
+    Col = 5;
     Colors = parula(length(Params));
 
     figure('Color','White')
         for aa = 1:length(endo_names)
             subplot(Row,Col,aa)
-            variable = [endo_names{aa} '_' exo_names{1:end}];
+            variable = [endo_names{aa} '_' exo_names{1}];
             for bb = 1 : length(Params)
                 plot(Ej2_Results.(['oo' num2str(bb) '_']).irfs.(variable), ...
                     'Linewidth', 2 , ...

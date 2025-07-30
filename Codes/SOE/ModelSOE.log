@@ -41,14 +41,14 @@ Equation number 13: Producción relativa al SS :       0.000000
 
 EIGENVALUES:
          Modulus             Real        Imaginary
-            0.75             0.75                0
+             0.5              0.5                0
             0.75             0.75                0
           0.8924           0.8924                0
            0.982            0.982                0
             1.04             1.04                0
            1.132           -1.132                0
-       1.699e+18        1.699e+18                0
-       4.376e+21        4.376e+21                0
+       9.075e+17        9.075e+17                0
+       7.082e+21        7.082e+21                0
 
 There are 4 eigenvalue(s) larger than 1 in modulus for 4 forward-looking variable(s)
 The rank condition is verified.

@@ -65,7 +65,7 @@ T_ss    = 0;
 R_star_ss = 1/bbeta - 1;
 
 
-rho_a   = 0.75;
+rho_a   = ParamsInDynare;% 0.75;
 rho_tau = 0.75;
 phi_b   = -0.05;
 
