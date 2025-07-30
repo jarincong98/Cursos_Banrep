@@ -22,37 +22,23 @@ end
 check = 0;
 
 % Convergencia de procesos autoregresivos
-A      = A_ss;
-B_star = B_ss;
-R_star = R_star_ss;
-
-% Precios
-    P   = 1;
-% Renta del capital
-    R_K = (1/bbeta - 1 + ddelta)*P; 
-% Salarios
-    W   = (P*A*(1-aalpha)^(1-aalpha)*(aalpha/R_K)^aalpha)^(1/(1-aalpha)); % Using the MC to W
-% Producción 
-    Y   = ( (( (1/psi_l) * (W/(1-aalpha))^eta * (W/P)  )^(1/ssigma))/ (1-(ddelta*aalpha/R_K) ) )^(ssigma/(ssigma+eta));
-    % Y   = 1; 
-% Inversión
-    I   = (ddelta*aalpha/R_K*Y);
-% Exportaciones netas
-    T  = T_ss;
-    % NX = -R_star*B_star + T;
-
-    C   = (1/Y)^(eta/ssigma)*( (1/psi_l) * (W/(1-aalpha))^eta * (W/P) ) ^(1/ssigma);
-    NX  = Y - C - I;
-% Consumo
-    % C  = Y - I + R_star*B_star + T;
-% Trabajo
-    L   = (1-aalpha)*Y/W;   
-% Capital
-    K   = (aalpha/R_K)*Y;
-% Relativo a PIB
-    Y_rel = 1;
-
-    psi_l = C^(-ssigma)*W/(L^eta);
+    Y      = 1;
+    B_star = B_ss;
+    R_star = R_star_ss;
+    T      = T_ss;
+    L      = 1/3;
+    P      = 1;
+    R_K    = (1/bbeta - 1 + ddelta)*P;
+    K      = (aalpha/R_K)*Y;
+    I      = ddelta*K;
+    W      = (1-aalpha)*Y/L;
+    NX     = -R_star*B_star + T;
+    C      = Y - I - NX;    
+    W      = (1-aalpha)*Y/L;
+    psi_l  = C^(-ssigma)*W/(L^eta);
+    A      = Y/( K^aalpha * L^(1-aalpha) );
+    A_ss   = A;
+    Y_rel  = 1;
 
 % ----------------------------------------------------------------------- %
 %% Return steady state  

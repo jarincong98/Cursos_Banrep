@@ -107,7 +107,7 @@ model;
     T = T(-1)*rho_tau+T_ss*(1-rho_tau)+eps_T;
 
 [name = 'Exportaciones netas']
-    NX = Y - C - I;
+    NX = Y - C - I ;
 
 [name = 'Producción relativa al SS']
     Y_rel = Y/steady_state(Y);
