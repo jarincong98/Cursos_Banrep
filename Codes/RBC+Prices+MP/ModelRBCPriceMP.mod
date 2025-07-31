@@ -1,27 +1,68 @@
-%%%  RBC Code + Sticky Prices + Monetary Policy
+%% Modelo RBC+Precios Rígidos+Política Monetaria / Economía cerrada
+%% Autor: Óscar Ávila - Fredy A. Castañeda - Juan A. Rincón
 %----------------------------------------------------------------
-% define variables 
+% Paso 1: Definición de variables endógenas
 %----------------------------------------------------------------
 
-var K C L P I lambda W R_K MC Upsilon q mu Pi_q A pi Z_D i_nom
+var
+    K       $K$         (long_name = 'Capital')
+    C       $C$         (long_name = 'Consumo')
+    L       $L$         (long_name = 'Trabajo')
+    P       $P$         (long_name = 'IPC')
+    I       $I$         (long_name = 'Inversión')
+    lambda  $\lambda$   (long_name = 'Multiplicador Lagrange')
+    W       $W$         (long_name = 'Salario Nominal')
+    R_K     $R^K$       (long_name = 'Renta Capital')
+    MC      $MC$        (long_name = 'Costo Marginal Nominal')
+    Upsilon $\upsilon$  (long_name = 'Costo de Ajuste Rotemberg')
+    q       $q$         (long_name = 'Producto Doméstico')
+    mu      $\mu$       (long_name = 'Multiplicador Costo Marginal')
+    Pi_q    $\Pi^q$     (long_name = 'Beneficios Domésticos')
+    A       $A$         (long_name = 'Proceso PTF')
+    pi      $\pi$       (long_name = 'Inflación')
+    Z_D     $Z^D$       (long_name = 'Proceso de Demanda')
+    i_nom   $i^{nom}$   (long_name = 'Tasa de interés nominal')
 ;
 
-varexo eps_A eps_D eps_nom
+%----------------------------------------------------------------
+% Paso 2: Definición de variables exógenas
+%----------------------------------------------------------------
 
+varexo
+    eps_A   $\epsilon^A$    (long_name = 'Choque de PTF')
+    eps_D   $\epsilon^D$    (long_name = 'Choque de Demanda')
+    eps_nom $\epsilon^{i^{nom}}$    (long_name = 'Choque de Política Monetaria')
 ;
 
 %----------------------------------------------------------------
-% define parameters
+% Paso 3: Parámetros del modelo
 %----------------------------------------------------------------
 
-parameters sigma beta delta alpha psi_l eta rho Ass phi_q theta phi_k rho_D
-        rho_nom phi_pi phi_y i_nom_ss P_ss q_ss
+parameters 
+    sigma   $\sigma$        (long_name = 'Inv. ESI')
+    beta    $\beta$         (long_name = 'Factor de Descuento')
+    delta   $\delta$        (long_name = 'Depreciación Capital') 
+    alpha   $\alpha$        (long_name = 'Elasticidad Capital en Producto') 
+    psi_l   $\psi_l$        (long_name = 'Desutilidad Marginal Trabajo')
+    eta     $\eta$          (long_name = 'Inv. Elasticidad Frisch')
+    rho     $\rho$          (long_name = 'Persistencia PTF') 
+    Ass     $A_{ss}$        (long_name = 'Estado Estacionario PTF') 
+    phi_q   $\phi_q$        (long_name = 'Rotemberg') 
+    theta   $\theta$        (long_name = 'Elasticidad Sustitución Variedades') 
+    phi_k   $\phi_k$        (long_name = 'Costo Marginal Ajuste Capital') 
+    rho_D   $\rho_D$        (long_name = 'Peristencia Demanda')   
+    rho_nom $\rho_{nom}$    (long_name = 'Persistencia Choque PM')
+    phi_pi  $\phi_{\pi}$    (long_name = 'Respuesta TPM a Brecha Inflación')
+    phi_y   $\phi_y$        (long_name = 'Respuesta TPM a Brecha PIB')
+    i_nom_ss $i^{nom}_{ss}$ (long_name = 'Tasa Nominal Neutral')
+    P_ss    $P_{ss}$        (long_name = 'Estado Estacionario IPC')
+    q_ss    $q_{ss}$        (long_name = 'Estado Estacionario Producto')
       
 ;
 
 
 %----------------------------------------------------------------
-% set parameter values 
+% Asignación de valores a los parámetros
 %----------------------------------------------------------------
 
 load params.mat;
@@ -47,14 +88,14 @@ phi_y  = 0.25;
 i_nom_ss = params(12);
 P_ss = params(13);
 q_ss = params(14);
+
 %----------------------------------------------------------------
-% enter model equations
+% Paso 4. Bloque del modelo
 %----------------------------------------------------------------
 model;
 
 [name='Taylor rule']
-%i_nom = (1-rho_nom)*i_nom_ss + rho_nom*i_nom(-1) + (1-rho_nom)*(phi_pi*(P/P_ss-1) + phi_y*(q/q_ss-1)) + eps_nom;
-i_nom = (1-rho_nom)*i_nom_ss + rho_nom*i_nom(-1) + (1-rho_nom)*(phi_pi*(P/P_ss-1) + phi_y*(q/q_ss-1)) + eps_nom;
+ i_nom = (1-rho_nom)*i_nom_ss + rho_nom*i_nom(-1) + (1-rho_nom)*(phi_pi*(P/P_ss-1) + phi_y*(q/q_ss-1)) + eps_nom;
 
 %i_nom = i_nom_ss^(1-rho_nom)*i_nom(-1)^rho_nom*(((P(+1)/P_ss)^phi_pi*(q(+1)/q_ss))^phi_y) + eps_nom;
 
@@ -113,7 +154,7 @@ Z_D = Z_D(-1)^rho_D*(1+eps_D);
 end;
 
 %----------------------------------------------------------------
-%  Initial values
+%  Paso 5. Valores Iniciales
 %---------------------------------------------------------------
 
 initval;
@@ -136,18 +177,27 @@ Z_D = 1;
 i_nom = 1/beta-1;
 
 end;
+
+%----------------------------------------------------------------
+% Paso 6. Opciones de Dynare
+%----------------------------------------------------------------
 model_diagnostics;
 resid(non_zero);
 check;
 steady;
 
+% Desviaciones estándar de choques
 shocks;
 var eps_A = 0.01^2;
 var eps_D = 0.01^2;
 var eps_nom = 0.01^2;
 end;
 
-%----------------------------------------------------------------
-%  Simul-IRF
-%---------------------------------------------------------------
+% Simulación Estocástica
 stoch_simul(periods = 1000, irf=40) A q C I K L MC P i_nom;
+
+% Escritura del modelo en LaTeX
+    write_latex_parameter_table;
+    write_latex_definitions;
+    write_latex_original_model(write_equation_tags);
+    collect_latex_files;

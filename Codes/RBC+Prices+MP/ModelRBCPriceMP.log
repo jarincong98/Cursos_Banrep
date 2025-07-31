@@ -1,23 +1,23 @@
-Starting Dynare (version 6.1).
-Calling Dynare with arguments: none
-Starting preprocessing of the model file ... 
-Found 17 equation(s). 
-Evaluating expressions... 
-Computing static model derivatives (order 1). 
-Normalizing the static model... 
-Finding the optimal block decomposition of the static model... 
-6 block(s) found: 
-  5 recursive block(s) and 1 simultaneous block(s). 
-  the largest simultaneous block has 12 equation(s) 
-                                 and 12 feedback variable(s). 
-Computing dynamic model derivatives (order 2). 
-Normalizing the dynamic model... 
-Finding the optimal block decomposition of the dynamic model... 
-3 block(s) found: 
-  2 recursive block(s) and 1 simultaneous block(s). 
-  the largest simultaneous block has 13 equation(s) 
-                                 and 11 feedback variable(s). 
-Preprocessing completed. 
+Starting Dynare (version 6.3).
+Calling Dynare with arguments: nograph
+Starting preprocessing of the model file ...
+Found 17 equation(s).
+Evaluating expressions...
+Computing static model derivatives (order 1).
+Normalizing the static model...
+Finding the optimal block decomposition of the static model...
+6 block(s) found:
+  5 recursive block(s) and 1 simultaneous block(s).
+  the largest simultaneous block has 12 equation(s)
+                                 and 12 feedback variable(s).
+Computing dynamic model derivatives (order 2).
+Normalizing the dynamic model...
+Finding the optimal block decomposition of the dynamic model...
+3 block(s) found:
+  2 recursive block(s) and 1 simultaneous block(s).
+  the largest simultaneous block has 13 equation(s)
+                                 and 11 feedback variable(s).
+Preprocessing completed.
 Preprocessing time: 0h00m00s.
 DYNARE_SOLVE (solve_algo=2|4): number of blocks = 7
 MODEL_DIAGNOSTICS:  No obvious problems with this mod-file were detected.
@@ -38,10 +38,10 @@ EIGENVALUES:
            1.065            1.065                0
            1.678            1.624           0.4204
            1.678            1.624          -0.4204
-        6.56e+16         6.56e+16                0
-       1.035e+17       -1.035e+17                0
-       2.603e+17       -2.603e+17                0
-       3.072e+19        3.072e+19                0
+       2.651e+16        2.651e+16                0
+       9.753e+16        9.753e+16                0
+       5.728e+17        5.728e+17                0
+       2.603e+19        2.603e+19                0
 
 There are 7 eigenvalue(s) larger than 1 in modulus for 7 forward-looking variable(s)
 The rank condition is verified.
@@ -185,4 +185,4 @@ P                   20.90              2.83             88.67            112.40
 i_nom                0.92              5.35             91.82             98.09
 Note: numbers do not add up to 100 due to i) non-zero correlation of simulated shocks in small samples and ii) nonlinearity
 
-Total computing time : 0h00m03s
+Total computing time : 0h00m00s
