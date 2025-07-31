@@ -1,2 +1,20 @@
 
 .DS_Store
+
+Codes/RBC/\+ModelRBC/
+
+Codes/RBC/ModelRBC/model/
+
+Codes/RBC/ModelRBC/
+
+Codes/RBC\+Prices/\+ModelRBCPrice/
+
+Codes/RBC\+Prices/ModelRBCPrice/model/
+
+Codes/RBC\+Prices/ModelRBCPrice/checksum
+
+Codes/RBC\+Prices/ModelRBCPrice/graphs/
+
+Codes/RBC\+Prices/ModelRBCPrice/Output/
+
+*.asv

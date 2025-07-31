@@ -1,27 +1,59 @@
-%%%  RBC Code
+%% Modelo RBC+Precios Rígidos / Economía cerrada
+%% Autor: Óscar Ávila - Fredy A. Castañeda - Juan A. Rincón
 %----------------------------------------------------------------
-% define variables 
+% Paso 1: Definición de variables endógenas
 %----------------------------------------------------------------
 
-var K C L P I lambda W R_K MC Upsilon q mu Pi_q A pi Z_D
+var 
+    K       $K$         (long_name = 'Capital')
+    C       $C$         (long_name = 'Consumo')
+    L       $L$         (long_name = 'Trabajo')
+    P       $P$         (long_name = 'IPC')
+    I       $I$         (long_name = 'Inversión')
+    lambda  $\lambda$   (long_name = 'Multiplicador Lagrange')
+    W       $W$         (long_name = 'Salario Nominal')
+    R_K     $R^K$       (long_name = 'Renta Capital')
+    MC      $MC$        (long_name = 'Costo Marginal Nominal')
+    Upsilon $\upsilon$  (long_name = 'Costo de Ajuste Rotemberg')
+    q       $q$         (long_name = 'Producto Doméstico')
+    mu      $\mu$       (long_name = 'Multiplicador Costo Marginal')
+    Pi_q    $\Pi^q$     (long_name = 'Beneficios Domésticos')
+    A       $A$         (long_name = 'Proceso PTF')
+    pi      $\pi$       (long_name = 'Inflación')
+    Z_D     $Z^D$       (long_name = 'Proceso de Demanda')
 ;
 
-varexo eps_A eps_D
 
+%----------------------------------------------------------------
+% Paso 2: Definición de variables exógenas
+%----------------------------------------------------------------
+varexo
+    eps_A   $\epsilon^A$    (long_name = 'Choque de PTF')
+    eps_D   $\epsilon^D$    (long_name = 'Choque de Demanda')
 ;
 
 %----------------------------------------------------------------
-% define parameters
+% Paso 3: Parámetros del modelo
 %----------------------------------------------------------------
 
-parameters sigma beta delta alpha psi_l eta rho Ass phi_q theta phi_k rho_D
-                    
-      
+parameters
+    sigma   $\sigma$        (long_name = 'Inv. ESI')
+    beta    $\beta$         (long_name = 'Factor de Descuento')
+    delta   $\delta$        (long_name = 'Depreciación Capital') 
+    alpha   $\alpha$        (long_name = 'Elasticidad Capital en Producto') 
+    psi_l   $\psi_l$        (long_name = 'Desutilidad Marginal Trabajo')
+    eta     $\eta$          (long_name = 'Inv. Elasticidad Frisch')
+    rho     $\rho$          (long_name = 'Persistencia PTF') 
+    Ass     $A_{ss}$        (long_name = 'Estado Estacionario PTF') 
+    phi_q   $\phi_q$        (long_name = 'Rotemberg') 
+    theta   $\theta$        (long_name = 'Elasticidad Sustitución Variedades') 
+    phi_k   $\phi_k$        (long_name = 'Costo Marginal Ajuste Capital') 
+    rho_D   $\rho_D$        (long_name = 'Peristencia Demanda')   
 ;
 
 
 %----------------------------------------------------------------
-% set parameter values 
+% Asignación de valores a los parámetros
 %----------------------------------------------------------------
 
 load params.mat;
@@ -41,7 +73,7 @@ phi_k = params(11);
 rho_D = 0.75;
 
 %----------------------------------------------------------------
-% enter model equations
+% Paso 4. Bloque del modelo
 %----------------------------------------------------------------
 model;
 
@@ -97,7 +129,7 @@ Z_D = Z_D(-1)^rho_D*(1+eps_D);
 end;
 
 %----------------------------------------------------------------
-%  Initial values
+%  Paso 5. Valores Iniciales
 %---------------------------------------------------------------
 
 initval;
@@ -119,17 +151,30 @@ A = SSvar(14);
 Z_D = 1;
 
 end;
+
+%----------------------------------------------------------------
+% Paso 6. Opciones de Dynare
+%----------------------------------------------------------------
 model_diagnostics;
 resid(non_zero);
 check;
 steady;
 
+%----------------------------------------------------------------
+% Paso 6. Productos de Dynare
+%----------------------------------------------------------------
+
+% Desviaciones estándar de choques
 shocks;
 var eps_A = 0.01;
 var eps_D = 0.10;
 end;
 
-%----------------------------------------------------------------
-%  Simul-IRF
-%---------------------------------------------------------------
+% Simulación Estocástica
 stoch_simul(periods = 1000, irf=40) A q C I K L MC P pi;
+
+% Escritura del modelo en LaTeX
+    write_latex_parameter_table;
+    write_latex_definitions;
+    write_latex_original_model(write_equation_tags);
+    collect_latex_files;
