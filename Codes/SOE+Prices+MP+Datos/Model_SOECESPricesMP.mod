@@ -74,7 +74,11 @@ var
 
     % --- Headline Inflation --- %
     pi_obs      $\pi$   (long_name = 'Headline Inflation')
-    
+
+    D_y_star_obs
+    D_y_obs
+    D_c_obs
+    D_i_obs
 ;
 
 %----------------------------------------------------------------
@@ -141,6 +145,7 @@ parameters
     B_pi_im_star_obs
     B_i_nom_obs
     B_pi_obs
+
 ;
 
 
@@ -352,7 +357,7 @@ Z_I = Z_I(-1)^rho_I*exp(eps_I);
     y_star_obs = y_star - 1 ;
 
 [name = 'Measurement Eq: Foreign Inflation']    
-    pi_star_obs = (P_star/P_star(-1) - 1) + B_pi_star_obs ;
+    pi_star_obs = (P_star/P_star(-1) - 1);
 
 [name = 'Measurement Eq: Foreign Inflation']    
     pi_im_star_obs = (Pim_star/Pim_star(-1) - 1) + B_pi_im_star_obs ;
@@ -374,6 +379,18 @@ Z_I = Z_I(-1)^rho_I*exp(eps_I);
 % --- Headline Inflation --- %
 [name = 'Measurement Eq: Headline Inflation Obs']
     pi_obs = (P_d/P_d(-1) - 1) + B_pi_obs ;
+
+[name = 'Measurement Eq: Foreign Demand Growth']
+    D_y_star_obs = y_star/y_star(-1) - 1;
+
+[name = 'Measurement Eq: GDP Growth']
+    D_y_obs = GDP/GDP(-1) - 1;
+
+[name = 'Measurement Eq: Consumption Growth']
+    D_c_obs = C/C(-1) - 1;
+
+[name = 'Measurement Eq: Investment Growth']
+    D_i_obs = I/I(-1) - 1;
     
 end;
 
@@ -444,15 +461,13 @@ steady;
 %---------------------------------------------------------------
 shocks;
     % --- Exogenous Shocks (Calibrated using MLE) --- %
-    var eps_Pim_star    ;   stderr  0.0091  ;
     var eps_y_star      ;   stderr  0.0235  ;
-    var eps_P_star      ;   stderr  0.0052  ;
     
     % --- Structural Shocks --- %
-    var eps_A   ;   stderr  0.01    ;
-    var eps_C   ;   stderr  0.01    ;
-    var eps_I   ;   stderr  0.01    ;
-    var eps_inom;   stderr  0.01    ;
+    % var eps_A   ;   stderr  0.01    ;
+    % var eps_C   ;   stderr  0.01    ;
+    % var eps_I   ;   stderr  0.01    ;
+    % var eps_inom;   stderr  0.01    ;
 
 end;
 
@@ -462,17 +477,17 @@ end;
 
 varobs
 % --- Foreign Variables --- %
-    y_star_obs
-    pi_star_obs
-    pi_im_star_obs
+    D_y_star_obs
+    % pi_star_obs
+    % pi_im_star_obs
 % --- National Accounts --- %
-    % Y_obs
-    C_obs
-    I_obs
+    % D_y_obs 
+    % D_c_obs     
+    % D_i_obs     
 % --- Nominal Interest Rate --- %    
-    i_nom_obs
+    % i_nom_obs
 % --- Headline inflation --- %
-    pi_obs
+    % pi_obs
 ;
 
 %----------------------------------------------------------------
@@ -487,36 +502,38 @@ varobs
 % stderr VARIABLE_NAME | corr VARIABLE_NAME_1, VARIABLE_NAME_2 | PARAMETER_NAME
 % , INITIAL_VALUE [, LOWER_BOUND, UPPER_BOUND ];
 
-% estimated_params;
-%     % --- Persistences --- %
-%     % rho_P_star  ,   0.5     ,   0   ,   1   ;
-%     % rho_Pim_star,   0.5     ,   0   ,   1   ;
-%     % rho_y_star  ,   0.5     ,   0   ,   1   ;
-%     rho_A   ,   0.8     ,   0   ,   1   ;
-%     rho_C   ,   0.8     ,   0   ,   1   ;
-%     % rho_I   ,   0.8     ,   0   ,   1   ;
-% 
-%     % --- Std. Dev. --- %
-%     % stderr  eps_P_star      ,   0.01    ,   0.00001 ,   10      ;
-%     % stderr  eps_Pim_star    ,   0.01    ,   0.00001 ,   10      ;
-%     % stderr  eps_y_star      ,   0.01    ,   0.00001 ,   10      ;
-%     stderr  eps_A       ,   0.01    ,   0.00001 ,   10      ;
-%     stderr  eps_C       ,   0.01    ,   0.00001 ,   10      ;
-%     stderr  eps_I       ,   0.01    ,   0.00001 ,   10      ;
-%     stderr  eps_inom    ,   0.01    ,   0.00001 ,   10      ;
-% 
-%     % --- Marginal Costs --- %
-%     phi_K   ,   0.01    ,   0       ,   20  ;
-% 
-% end;
+estimated_params;
+    % --- Persistences --- %
+    % rho_P_star  ,   0.5     ,   0   ,   1   ;
+    % rho_Pim_star,   0.5     ,   0   ,   1   ;
+    % rho_y_star  ,   0.5     ,   0   ,   1   ;
+    % rho_A   ,   0.5     ,   0   ,   1   ;
+    % rho_C   ,   0.5     ,   0   ,   1   ;
+    % rho_I   ,   0.5     ,   0   ,   1   ;
+    % 
+    % --- Std. Dev. --- %
+    % stderr  eps_P_star      ,   0.01    ,   0.00001 ,   10      ;
+    % stderr  eps_Pim_star    ,   0.01    ,   0.00001 ,   10      ;
+    stderr  eps_y_star      ,   0.01    ,   0.00001 ,   10      ;
+    % stderr  eps_A       ,   0.01    ,   0.00001 ,   10      ;
+    % stderr  eps_C       ,   0.01    ,   0.00001 ,   10      ;
+    % stderr  eps_I       ,   0.01    ,   0.00001 ,   10      ;
+    % stderr  eps_inom    ,   0.01    ,   0.00001 ,   10      ;
+
+    % --- Marginal Costs --- %
+    % phi_K   ,   10    ,   0    ,   20  ;
+
+end;
 
 % ----------------------------------- %
 %   Estimation
 % ----------------------------------- %
 
-% estimation( datafile        =   'Datos/DataCOL.xlsx'
-%         ,   nobs            =   80
+% estimation( datafile        =   'Datos/Database.xlsx'
+%         ,   xls_range       =   B1:Z80
+%         ,   xls_sheet       =   'Database 00-19'       
 %         ,   mode_compute    =   5
+%         ,   first_obs       =   1
 %         ,   mode_check
 %         ,   smoother
 %         ,   nograph
@@ -525,12 +542,12 @@ varobs
 % --------------------------------------- %
 %   Filtering (loading estimated mode) 
 % --------------------------------------- %            
-
-% estimation( datafile        =   'Datos/DataCOL.xlsx'
-%         % ,   mode_file       =   'Model_SOECESPricesMP/Output/Model_SOECESPricesMP_mode.mat'
-%         % ,   nobs            =   80
+% 
+% estimation( datafile        =   'Datos/Database.xlsx'
+%         ,   mode_file       =   'Model_SOECESPricesMP/Output/Model_SOECESPricesMP_mode.mat'
+%         ,   xls_range       =   B1:Z88
+%         ,   xls_sheet       =   'Database 00-19'       
 %         ,   mode_compute    =   0
-%         % ,   mode_check
 %         ,   smoother
 %         ,   nograph
 %             );
@@ -551,29 +568,30 @@ varobs
 %----------------------------------------------------------------
 %  Shock Decomposition
 %---------------------------------------------------------------
-options_.initial_date = dates('2000Q1');
-
-shock_decomposition(nograph
-                ,   datafile        =   'Datos/DataCOL.xlsx'
-                ,   parameter_set   =   calibration
-                ,   first_obs       =   1
-                ,   nobs            =   80
-                    );
-
-plot_shock_decomposition(   plot_init_date = dates('2000Q1')
-                    ,       plot_end_date  = dates('2019Q4')
-
-                        )
-    % y_star_obs
-    % pi_star_obs
-    % pi_im_star_obs
-    Y_obs
-    C_obs
-    I_obs
-    pi_obs
-    i_nom_obs
-
-;             
+% options_.initial_date = dates('2000Q2');
+% shock_decomposition(nograph
+%                 ,   datafile        =   'Datos/Database.xlsx'
+%                 ,   xls_sheet       =   'Database 00-19'                               
+%                 ,   xls_range       =   B1:Z88
+%                 % ,   parameter_set   =   calibration
+%                 ,   first_obs       =   1                               
+%                     );
+% 
+% plot_shock_decomposition(   plot_init_date = dates('2019Q1')
+%                         )
+%     D_y_star_obs
+%     % D_y_obs
+%     % D_c_obs
+%     % D_i_obs
+% 
+%     y_star
+%     Y_obs
+%     % C_obs
+%     % I_obs
+%     % pi_obs
+%     % i_nom_obs
+% 
+% ;             
 
 
 %----------------------------------------------------------------
@@ -584,12 +602,13 @@ plot_shock_decomposition(   plot_init_date = dates('2000Q1')
 %         ,   nograph
 %             )
 %             GDP
-%             C
-%             I
-%             EX
-%             IM
-%             NX
-%             s
-%             P_c
-%             i_nom
+%             y_star
+%             % C
+%             % I
+%             % EX
+%             % IM
+%             % NX
+%             % s
+%             % P_c
+%             % i_nom
 %             ;

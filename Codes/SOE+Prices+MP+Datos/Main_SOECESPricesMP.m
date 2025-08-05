@@ -39,12 +39,12 @@ A_ss = 1; %TFP
 P_star_ss = 1; %Foreign export prices
 Pim_star_ss = 1; %Foreign import prices
 
-rho_A = 0.8;
+rho_A = 0.3;
 rho_Pim_star = 0.8;
 rho_y_star = 0.95;
 rho_P_star = 0.8;
-rho_C = 0.8;
-rho_I = 0.8;
+rho_C = 0.3;
+rho_I = 0.3;
 
 %phi_b = -0.1; % Debt elastic interest rate
 phi_b = -0.001; % Debt elastic interest rate
@@ -98,4 +98,4 @@ save SSvar SSvar
 
 %% Run Dynare
 
-dynare Model_SOECESPricesMP.mod
+dynare Model_SOECESPricesMP.mod nointeractive
